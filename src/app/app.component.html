@@ -1,0 +1,104 @@
+<main class="fp-page">
+  <div class="ambient-shape ambient-shape-left" aria-hidden="true"></div>
+  <div class="ambient-shape ambient-shape-right" aria-hidden="true"></div>
+
+  <section class="hero panel reveal">
+    <img
+      src="french-press-thumbnail.svg"
+      width="88"
+      height="88"
+      alt="French press icon"
+      class="hero-thumbnail"
+    />
+    <p class="eyebrow">French Press Ratio Guide</p>
+    <h1>How much water should you brew?</h1>
+    <form class="calculator-form" (ngSubmit)="onSubmit()">
+      <label for="coffee-grams">Coffee grounds (grams)</label>
+      <div class="input-row">
+        <input
+          id="coffee-grams"
+          type="number"
+          inputmode="decimal"
+          [attr.min]="minGrams"
+          [attr.max]="maxGrams"
+          step="0.1"
+          [formControl]="coffeeInput"
+          [class.input-error]="shouldShowErrors()"
+          aria-describedby="coffee-help coffee-error"
+        />
+        <button type="submit">Calculate</button>
+      </div>
+    </form>
+
+    <p class="hero-copy">
+      Use your coffee grams to instantly calculate water in cups and liters.
+      The base ratio is {{ gramsPerCup }} grams per US cup.
+    </p>
+    <p id="coffee-help" class="helper">
+      Recommended range: {{ minGrams.toFixed(2) }}g to {{ maxGrams.toFixed(0) }}g (about {{ minCups }} to {{ maxCups }} cups).
+    </p>
+
+    @if (validationMessage()) {
+      <p id="coffee-error" class="error-message">{{ validationMessage() }}</p>
+    }
+  </section>
+
+  <section class="workspace-grid">
+    <article class="panel reveal calculator-panel">
+      <div class="quick-actions" aria-label="Quick presets">
+        <button type="button" (click)="setQuickAmount(30)">30g</button>
+        <button type="button" (click)="setQuickAmount(45)">45g</button>
+        <button type="button" (click)="setQuickAmount(60)">60g</button>
+      </div>
+
+      <div class="result-card" [class.result-empty]="!calculation()" data-testid="result-card">
+        @if (calculation()) {
+          <h2>Recommended water</h2>
+          <div class="result-metrics">
+            <div>
+              <p class="metric-label">Cups</p>
+              <p class="metric-value" data-testid="cups-value">{{ displayCups() }}</p>
+            </div>
+            <div>
+              <p class="metric-label">Liters</p>
+              <p class="metric-value" data-testid="liters-value">{{ displayLiters() }}</p>
+            </div>
+          </div>
+
+          <p class="math-line">
+            {{ displayGrams() }}g / {{ gramsPerCup }}g per cup = {{ displayCups() }} cups
+          </p>
+        } @else {
+          <h2>Add coffee grams to see water guidance</h2>
+        }
+      </div>
+    </article>
+
+    <article class="panel reveal visual-panel" [style.--fill-level]="fillPercent() + '%'">
+      <div class="press-scene" aria-hidden="true">
+        <div class="steam steam-one"></div>
+        <div class="steam steam-two"></div>
+        <div class="steam steam-three"></div>
+
+        <div class="french-press">
+          <div class="press-handle"></div>
+          <div class="press-lid"></div>
+          <div class="press-stem"></div>
+          <div class="press-filter"></div>
+          <div class="press-glass">
+            <div class="press-water"></div>
+            <div class="bubble bubble-a"></div>
+            <div class="bubble bubble-b"></div>
+            <div class="bubble bubble-c"></div>
+          </div>
+        </div>
+      </div>
+
+      <p class="visual-note">
+        Fill level responds to your cups target and gently animates to the new amount.
+      </p>
+    </article>
+  </section>
+</main>
+
+<app-footer></app-footer>

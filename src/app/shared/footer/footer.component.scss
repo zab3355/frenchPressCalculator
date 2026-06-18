@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.site-footer {
+  background: color-mix(in srgb, var(--bg-paper) 90%, white 10%);
+  border-top: 1px solid var(--panel-border);
+  margin-top: 2.5rem;
+  padding: 1.25rem 1rem 1.4rem;
+  text-align: center;
+}
+
+.social-links {
+  align-items: center;
+  display: inline-flex;
+  gap: 0.9rem;
+  justify-content: center;
+  margin-bottom: 0.65rem;
+}
+
+.social-links a {
+  color: var(--ink-700);
+  display: inline-flex;
+  transition: color 180ms ease, transform 180ms ease;
+}
+
+.social-links a:hover {
+  color: var(--coffee-700);
+  transform: translateY(-2px) scale(1.06);
+}
+
+.social-links a:focus-visible {
+  border-radius: 999px;
+  outline: 3px solid rgba(121, 180, 139, 0.7);
+  outline-offset: 4px;
+}
+
+.social-links svg {
+  fill: currentColor;
+  height: 1.45rem;
+  width: 1.45rem;
+}
+
+p {
+  color: var(--ink-500);
+  margin: 0;
+}
+
+@media (max-width: 600px) {
+  .site-footer {
+    margin-top: 2rem;
+    padding: 1.1rem 1rem 1.25rem;
+  }
+}
