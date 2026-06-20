@@ -454,33 +454,9 @@ console.log(`${result.coffeeGrams}g → ${result.cups} cups`);
 
 ---
 
-## Future Improvements
-
-### Near-term
-- [ ] **Internationalization (i18n)**: Support multiple languages
-- [ ] **Dark mode**: Theme toggle with persistence
-- [ ] **Accessibility audit**: WCAG 2.1 AA compliance with axe
-- [ ] **Custom ratios**: User-configurable brew ratios
-
-### Medium-term
-- [ ] **PWA support**: Offline capability, install prompt
-- [ ] **Analytics**: Track popular brew amounts, user interactions
-- [ ] **Mobile app**: React Native or Flutter port
-- [ ] **Brew timer**: Companion timer with notifications
-
-### Long-term
-- [ ] **Multi-brew calculator**: Calculate for multiple simultaneous brews
-- [ ] **Recipe sharing**: Save and share custom brew profiles
-- [ ] **Community features**: Browse popular brewing methods
-- [ ] **ML-powered recommendations**: Suggest brew amounts based on preferences
-
----
-
 ## Git Workflow & Code Quality
 
 ### Commit Conventions
-
-We follow [Conventional Commits](https://www.conventionalcommits.org/):
 
 ```bash
 git commit -m "feat: add dark mode toggle"        # Feature
@@ -596,33 +572,6 @@ MIT License - See [LICENSE.md](LICENSE.md) for details.
 
 ---
 
-## Contact
-
-**Zach Brown**  
-📧 [Email](mailto:zach@zabrown.com)  
-🔗 [GitHub](https://github.com/zab3355)  
-💼 [LinkedIn](https://www.linkedin.com/in/zab3355/)  
-🌐 [Portfolio](https://zabrown.com)
-
----
-
-## Acknowledgments
-
-- Angular team for excellent framework documentation
-- ESLint, Prettier, and Husky maintainers for quality tools
-- Coffee enthusiasts for brewing inspiration ☕
-
----
-
 **Last Updated**: June 2026  
 **Angular Version**: 18.2.0  
 
-Note:
-- In environments without a Chrome binary, Karma headless tests require `CHROME_BIN` to be set.
-
-## UX Notes
-
-- Animated French press visual reacts to calculated cup amount.
-- Includes a custom French press thumbnail icon.
-- Supports reduced-motion users via `prefers-reduced-motion`.
-- Optimized for both desktop and mobile layouts.
