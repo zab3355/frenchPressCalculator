@@ -31,11 +31,12 @@
     </form>
 
     <p class="hero-copy">
-      Use your coffee grams to instantly calculate water in cups and liters.
-      The base ratio is {{ gramsPerCup }} grams per US cup.
+      Use your coffee grams to instantly calculate water in cups and liters. The base ratio is
+      {{ gramsPerCup }} grams per US cup.
     </p>
     <p id="coffee-help" class="helper">
-      Recommended range: {{ minGrams.toFixed(2) }}g to {{ maxGrams.toFixed(0) }}g (about {{ minCups }} to {{ maxCups }} cups).
+      Recommended range: {{ minGrams.toFixed(2) }}g to {{ maxGrams.toFixed(0) }}g (about
+      {{ minCups }} to {{ maxCups }} cups).
     </p>
 
     @if (validationMessage()) {

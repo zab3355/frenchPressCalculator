@@ -2,19 +2,22 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   BrewCalculation,
-  FrenchPressCalculatorService
+  FrenchPressCalculatorService,
 } from './core/calculator/french-press-calculator.service';
+import { ValidationMessageService } from './core/services/validation-message.service';
 import { FooterComponent } from './shared/footer/footer.component';
+import { formatDecimal } from './core/utils/number-formatter';
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [ReactiveFormsModule, FooterComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss'
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private readonly calculator = inject(FrenchPressCalculatorService);
+  private readonly validationService = inject(ValidationMessageService);
 
   readonly gramsPerCup = this.calculator.gramsPerCup;
   readonly cupMilliliters = this.calculator.cupMilliliters;
@@ -24,7 +27,7 @@ export class AppComponent {
   readonly maxGrams = this.maxCups * this.gramsPerCup;
 
   readonly coffeeInput = new FormControl<number | null>(45, {
-    validators: [Validators.required, Validators.min(this.minGrams), Validators.max(this.maxGrams)]
+    validators: [Validators.required, Validators.min(this.minGrams), Validators.max(this.maxGrams)],
   });
 
   readonly hasInteracted = signal(false);
@@ -34,44 +37,26 @@ export class AppComponent {
     return Math.max(8, Math.min(95, (cups / 6) * 100));
   });
 
-  readonly displayCups = computed(() => {
-    const value = this.calculation()?.cups;
-    return value === undefined ? '0.00' : value.toFixed(2);
-  });
-
-  readonly displayLiters = computed(() => {
-    const value = this.calculation()?.liters;
-    return value === undefined ? '0.00' : value.toFixed(2);
-  });
-
-  readonly displayGrams = computed(() => {
-    const value = this.coffeeInput.value;
-    if (value === null || Number.isNaN(value)) {
-      return '0.00';
-    }
-    return value.toFixed(2);
-  });
+  readonly displayCups = computed(() => formatDecimal(this.calculation()?.cups));
+  readonly displayLiters = computed(() => formatDecimal(this.calculation()?.liters));
+  readonly displayGrams = computed(() => formatDecimal(this.coffeeInput.value));
 
   readonly validationMessage = computed(() => {
     if (!this.shouldShowErrors()) {
       return '';
     }
 
-    const errors = this.coffeeInput.errors;
-    if (errors?.['required']) {
-      return 'Add how many grams of coffee you have.';
-    }
-    if (errors?.['min']) {
-      return `Use at least ${this.minGrams.toFixed(2)}g for about ${this.minCups} cup.`;
-    }
-    if (errors?.['max']) {
-      return `This french press holds up to ${this.maxCups} cups. Use ${this.maxGrams.toFixed(0)}g or less.`;
-    }
-
-    return 'Enter a valid coffee amount.';
+    return this.validationService.getValidationMessage(
+      this.coffeeInput.errors,
+      this.minGrams,
+      this.maxGrams,
+      this.minCups,
+      this.maxCups
+    );
   });
 
   constructor() {
+    // Reactively update calculation when coffee input value changes
     this.coffeeInput.valueChanges.subscribe(() => {
       this.tryCalculate();
     });

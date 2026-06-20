@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" role="img" aria-label="Portfolio globe">
+  <g fill="none" stroke="#6b4229" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="12" cy="12" r="10"/>
+    <line x1="2" y1="12" x2="22" y2="12"/>
+    <line x1="12" y1="2" x2="12" y2="22"/>
+    <ellipse cx="12" cy="12" rx="4.7" ry="10"/>
+    <path d="M2.6 8.2C4.9 9.6 8.2 10.4 12 10.4s7.1-.8 9.4-2.2"/>
+    <path d="M2.6 15.8C4.9 14.4 8.2 13.6 12 13.6s7.1.8 9.4 2.2"/>
+  </g>
+</svg>
