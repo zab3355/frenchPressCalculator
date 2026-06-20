@@ -15,6 +15,9 @@ COPY . .
 # Build Angular SSR application
 RUN npm run build
 
+# Remove dev dependencies before handing off to runtime image
+RUN npm prune --omit=dev
+
 # Runtime stage
 FROM node:18-alpine
 
@@ -23,8 +26,8 @@ WORKDIR /app
 # Copy package files
 COPY package*.json ./
 
-# Install production dependencies only
-RUN npm ci --only=production
+# Copy production dependencies from builder stage
+COPY --from=builder /app/node_modules ./node_modules
 
 # Copy built application from builder stage
 COPY --from=builder /app/dist ./dist
