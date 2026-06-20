@@ -1,6 +1,6 @@
 # French Press Water Calculator
 
-> A modern, fully-typed Angular application demonstrating contemporary web development practices: reactive programming patterns, component-driven architecture, comprehensive testing, and CI/CD automation.
+> A modern, fully-typed Angular application demonstrating contemporary web development practices: reactive programming patterns, component-driven architecture, and comprehensive testing.
 
 ![Build](https://img.shields.io/badge/build-passing-brightgreen)
 ![Tests](https://img.shields.io/badge/coverage-%3E80%25-brightgreen)
