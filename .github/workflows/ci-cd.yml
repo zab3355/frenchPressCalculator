@@ -44,8 +44,19 @@ jobs:
       - name: Format check
         run: npm run format:check
 
+      - name: Install Chromium
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium
+
       - name: Test
-        run: npm run test -- --watch=false --code-coverage --browsers=ChromeHeadless
+        env:
+          CHROME_BIN: /usr/bin/chromium-browser
+        run: |
+          if [[ ! -x "$CHROME_BIN" ]]; then
+            export CHROME_BIN=/usr/bin/chromium
+          fi
+          npm run test -- --watch=false --code-coverage --browsers=ChromeHeadless
 
   deploy:
     name: Deploy to server
