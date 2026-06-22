@@ -572,6 +572,28 @@ MIT License - See [LICENSE.md](LICENSE.md) for details.
 
 ---
 
+## CI/CD Pipeline
+
+[![CI/CD](https://github.com/zab3355/frenchPressCalculator/actions/workflows/ci-cd.yml/badge.svg)](https://github.com/zab3355/frenchPressCalculator/actions/workflows/ci-cd.yml)
+
+This project validates on every push and pull request, and deploys to production on `main` push after validation passes.
+
+### Checks
+
+- **Build**: `npm run build`
+- **Lint**: `npm run lint`
+- **Format Check**: `npm run format:check`
+- **Tests**: Unit tests via Karma with code coverage
+- **Deploy**: Automatic deployment to server on `main` push
+
+### Manual Trigger
+
+You can manually run checks without pushing by going to [GitHub Actions](https://github.com/zab3355/frenchPressCalculator/actions/workflows/ci-cd.yml) and clicking "Run workflow".
+
+For details, see the [CI/CD Deployment Guide](../../CI-CD-DEPLOYMENT.md).
+
+---
+
 **Last Updated**: June 2026  
 **Angular Version**: 18.2.0  
 

@@ -39,3 +39,9 @@ testem.log
 Thumbs.db
 DEPLOYMENT.md
 nginx_frenchpress.conf
+.env
+.env.*
+*.key
+*.pem
+secrets/
+deploy_key*
