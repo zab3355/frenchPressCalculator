@@ -1,8 +1,6 @@
 services:
   app:
-    build:
-      context: .
-      dockerfile: Dockerfile
+    image: ghcr.io/zab3355/frenchpresscalculator:latest
     ports:
       - "4201:4201"
     environment:
