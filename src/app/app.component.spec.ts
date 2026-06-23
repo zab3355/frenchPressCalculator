@@ -291,7 +291,7 @@ describe('AppComponent', () => {
       const fixture = TestBed.createComponent(AppComponent);
       const app = fixture.componentInstance;
 
-      app.coffeeInput.setValue(0.5);
+      app.coffeeInput.setValue(3.75);
       app.onSubmit();
       fixture.detectChanges();
 

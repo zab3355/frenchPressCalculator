@@ -25,7 +25,7 @@ export class ValidationMessageService {
     minCups: number,
     maxCups: number
   ): string {
-    if (!errors) {
+    if (!errors || Object.keys(errors).length === 0) {
       return '';
     }
 
@@ -38,7 +38,7 @@ export class ValidationMessageService {
     }
 
     if (errors['max']) {
-      return `This french press holds up to ${maxCups} cups. Use ${maxGrams.toFixed(0)}g or less.`;
+      return `This french press holds up to ${maxCups} cups. Use ${Math.floor(maxGrams)}g or less.`;
     }
 
     return 'Enter a valid coffee amount.';

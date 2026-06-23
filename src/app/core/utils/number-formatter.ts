@@ -14,7 +14,8 @@ export function formatDecimal(value: number | null | undefined, decimals: number
   if (value === null || value === undefined || Number.isNaN(value)) {
     return '0.00';
   }
-  return value.toFixed(decimals);
+  const factor = Math.pow(10, decimals);
+  return (Math.round((value + Number.EPSILON) * factor) / factor).toFixed(decimals);
 }
 
 /**
