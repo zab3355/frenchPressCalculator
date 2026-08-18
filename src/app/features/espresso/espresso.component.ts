@@ -7,11 +7,12 @@ import {
 } from '../../core/calculator/espresso-calculator.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
+import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 @Component({
   selector: 'app-espresso',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ScrollRevealDirective],
   templateUrl: './espresso.component.html',
 })
 export class EspressoComponent {

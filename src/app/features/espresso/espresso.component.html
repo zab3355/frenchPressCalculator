@@ -1,4 +1,4 @@
-<section class="hero panel reveal">
+<section class="hero panel reveal" appScrollReveal>
   <p class="eyebrow">Espresso Ratio Guide</p>
   <h1>How much yield should you pull?</h1>
   <form class="calculator-form" (ngSubmit)="onSubmit()">
@@ -34,7 +34,7 @@
 </section>
 
 <section class="workspace-grid">
-  <article class="panel reveal calculator-panel">
+  <article class="panel reveal calculator-panel" appScrollReveal>
     <div class="quick-actions" aria-label="Quick presets">
       <button type="button" (click)="setQuickDose(9)">9g single</button>
       <button type="button" (click)="setQuickDose(18)">18g double</button>
@@ -67,7 +67,7 @@
     </div>
   </article>
 
-  <article class="panel reveal visual-panel">
+  <article class="panel reveal visual-panel" appScrollReveal>
     <div class="espresso-scene" aria-hidden="true">
       <div class="portafilter"></div>
       <div class="espresso-cup">

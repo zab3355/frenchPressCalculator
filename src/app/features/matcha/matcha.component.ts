@@ -13,6 +13,7 @@ import {
 } from '../../core/calculator/matcha-calculator.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
+import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 function integerValidator(control: AbstractControl): ValidationErrors | null {
   return control.value === null || Number.isInteger(control.value) ? null : { integer: true };
@@ -21,7 +22,7 @@ function integerValidator(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-matcha',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, ScrollRevealDirective],
   templateUrl: './matcha.component.html',
 })
 export class MatchaComponent {
