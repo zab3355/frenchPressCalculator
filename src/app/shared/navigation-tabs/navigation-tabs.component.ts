@@ -4,7 +4,6 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 interface NavTab {
   path: string;
   label: string;
-  icon: string;
 }
 
 /** Route-backed tab strip for switching between drink calculators. */
@@ -17,10 +16,10 @@ interface NavTab {
 })
 export class NavigationTabsComponent {
   readonly tabs: NavTab[] = [
-    { path: 'french-press', label: 'French Press', icon: '☕' },
-    { path: 'matcha', label: 'Matcha', icon: '🍵' },
-    { path: 'espresso', label: 'Espresso', icon: '⚡' },
-    { path: 'cocktails', label: 'Cocktails', icon: '🍸' },
+    { path: 'french-press', label: 'French Press' },
+    { path: 'matcha', label: 'Matcha' },
+    { path: 'espresso', label: 'Espresso' },
+    { path: 'cocktails', label: 'Cocktails' },
   ];
 
   onKeydown(event: KeyboardEvent, index: number): void {

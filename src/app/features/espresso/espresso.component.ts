@@ -46,7 +46,6 @@ export class EspressoComponent {
   });
 
   constructor() {
-    this.doseInput.valueChanges.subscribe(() => this.tryCalculate());
     this.ratioInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 
@@ -58,6 +57,7 @@ export class EspressoComponent {
   setQuickDose(doseGrams: number): void {
     this.doseInput.setValue(doseGrams);
     this.hasInteracted.set(true);
+    this.tryCalculate();
   }
 
   shouldShowErrors(): boolean {

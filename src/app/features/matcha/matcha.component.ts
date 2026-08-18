@@ -61,7 +61,6 @@ export class MatchaComponent {
   });
 
   constructor() {
-    this.servingsInput.valueChanges.subscribe(() => this.tryCalculate());
     this.styleInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 
@@ -73,6 +72,7 @@ export class MatchaComponent {
   setQuickServings(servings: number): void {
     this.servingsInput.setValue(servings);
     this.hasInteracted.set(true);
+    this.tryCalculate();
   }
 
   shouldShowErrors(): boolean {

@@ -67,7 +67,6 @@ export class CocktailsComponent {
   });
 
   constructor() {
-    this.servingsInput.valueChanges.subscribe(() => this.tryCalculate());
     this.recipeInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 
@@ -79,6 +78,7 @@ export class CocktailsComponent {
   setQuickServings(servings: number): void {
     this.servingsInput.setValue(servings);
     this.hasInteracted.set(true);
+    this.tryCalculate();
   }
 
   shouldShowErrors(): boolean {

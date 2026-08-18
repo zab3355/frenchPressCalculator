@@ -51,12 +51,6 @@ export class FrenchPressComponent {
     });
   });
 
-  constructor() {
-    this.coffeeInput.valueChanges.subscribe(() => {
-      this.tryCalculate();
-    });
-  }
-
   onSubmit(): void {
     this.hasInteracted.set(true);
     this.tryCalculate();
@@ -65,6 +59,7 @@ export class FrenchPressComponent {
   setQuickAmount(grams: number): void {
     this.coffeeInput.setValue(grams);
     this.hasInteracted.set(true);
+    this.tryCalculate();
   }
 
   shouldShowErrors(): boolean {

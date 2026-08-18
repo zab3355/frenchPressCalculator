@@ -49,11 +49,22 @@ describe('FrenchPressComponent', () => {
       expect(liters).toBe('0.71');
     });
 
-    it('updates display when coffee amount changes', () => {
+    it('does not recalculate on keystroke alone', () => {
       const fixture = TestBed.createComponent(FrenchPressComponent);
       const app = fixture.componentInstance;
 
       app.coffeeInput.setValue(60);
+      fixture.detectChanges();
+
+      expect(app.displayCups()).toBe('3.00');
+    });
+
+    it('updates display when Calculate is submitted', () => {
+      const fixture = TestBed.createComponent(FrenchPressComponent);
+      const app = fixture.componentInstance;
+
+      app.coffeeInput.setValue(60);
+      app.onSubmit();
       fixture.detectChanges();
 
       expect(app.displayCups()).toBe('4.00');
