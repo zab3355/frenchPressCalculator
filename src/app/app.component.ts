@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal, ChangeDetectionStrategy } from '@angular/core';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   BrewCalculation,
@@ -9,10 +9,11 @@ import { FooterComponent } from './shared/footer/footer.component';
 import { formatDecimal } from './core/utils/number-formatter';
 
 @Component({
-    selector: 'app-root',
-    imports: [ReactiveFormsModule, FooterComponent],
-    templateUrl: './app.component.html',
-    styleUrl: './app.component.scss'
+  selector: 'app-root',
+  imports: [ReactiveFormsModule, FooterComponent],
+  templateUrl: './app.component.html',
+  changeDetection: ChangeDetectionStrategy.Eager,
+  styleUrl: './app.component.scss',
 })
 export class AppComponent {
   private readonly calculator = inject(FrenchPressCalculatorService);
