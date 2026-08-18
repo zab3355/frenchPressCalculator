@@ -1,4 +1,5 @@
-import { Component, computed, ElementRef, inject, signal, ViewChild } from '@angular/core';
+import { Component, computed, ElementRef, inject, Signal, signal, ViewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormControl,
@@ -55,17 +56,31 @@ export class CocktailsComponent {
     this.scalingService.scale(this.recipes[0], 1)
   );
 
+  /**
+   * FormControl.value/.errors/.invalid/.dirty are plain properties, not
+   * signals — reading them inside computed() registers no dependency, so a
+   * computed that only reads those would compute once and cache forever.
+   * These bridge each control's synchronous (validators are all sync here)
+   * value/validity into the signal graph so computeds below actually
+   * recompute when the user changes the control.
+   */
+  private readonly recipeInputValue: Signal<string>;
+  private readonly servingsInputChanges: Signal<number | null>;
+
   readonly selectedRecipe = computed<CocktailRecipe>(() => {
-    const recipe = this.recipes.find((r) => r.id === this.recipeInput.value);
+    const recipe = this.recipes.find((r) => r.id === this.recipeInputValue());
     return recipe ?? this.recipes[0];
   });
 
   readonly fillPercent = computed(() => {
+    this.servingsInputChanges();
     const servings = this.scaledIngredients() ? (this.servingsInput.value ?? 1) : 1;
     return Math.max(30, Math.min(85, (servings / this.maxServings) * 85));
   });
 
   readonly validationMessage = computed(() => {
+    this.servingsInputChanges();
+
     if (!this.shouldShowErrors()) {
       return '';
     }
@@ -79,6 +94,12 @@ export class CocktailsComponent {
   });
 
   constructor() {
+    this.recipeInputValue = toSignal(this.recipeInput.valueChanges, {
+      initialValue: this.recipeInput.value,
+    });
+    this.servingsInputChanges = toSignal(this.servingsInput.valueChanges, {
+      initialValue: this.servingsInput.value,
+    });
     this.recipeInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 

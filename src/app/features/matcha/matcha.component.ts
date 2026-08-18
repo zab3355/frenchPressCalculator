@@ -1,4 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
   FormControl,
@@ -53,7 +54,17 @@ export class MatchaComponent {
     return Math.max(20, Math.min(85, (servings / this.maxServings) * 85));
   });
 
+  /**
+   * FormControl.errors/.invalid/.dirty are plain properties, not signals —
+   * reading them inside computed() registers no dependency. This bridges
+   * the control's (synchronous validators) value into the signal graph so
+   * validationMessage actually recomputes on user input.
+   */
+  private readonly servingsInputChanges: Signal<number | null>;
+
   readonly validationMessage = computed(() => {
+    this.servingsInputChanges();
+
     if (!this.shouldShowErrors()) {
       return '';
     }
@@ -67,6 +78,9 @@ export class MatchaComponent {
   });
 
   constructor() {
+    this.servingsInputChanges = toSignal(this.servingsInput.valueChanges, {
+      initialValue: this.servingsInput.value,
+    });
     this.styleInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 

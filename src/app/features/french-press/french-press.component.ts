@@ -1,4 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   BrewCalculation,
@@ -39,9 +40,21 @@ export class FrenchPressComponent {
 
   readonly displayCups = computed(() => formatDecimal(this.calculation()?.cups));
   readonly displayLiters = computed(() => formatDecimal(this.calculation()?.liters));
-  readonly displayGrams = computed(() => formatDecimal(this.coffeeInput.value));
+
+  /**
+   * FormControl.value/.errors/.invalid/.dirty are plain properties, not
+   * signals — reading them inside computed() registers no dependency, so a
+   * computed reading only those would compute once and cache forever.
+   * This bridges the control's (synchronous validators) value into the
+   * signal graph so computeds below actually recompute on user input.
+   */
+  private readonly coffeeInputChanges: Signal<number | null>;
+
+  readonly displayGrams = computed(() => formatDecimal(this.coffeeInputChanges()));
 
   readonly validationMessage = computed(() => {
+    this.coffeeInputChanges();
+
     if (!this.shouldShowErrors()) {
       return '';
     }
@@ -52,6 +65,12 @@ export class FrenchPressComponent {
       maxMessage: `This french press holds up to ${this.maxCups} cups. Use ${Math.floor(this.maxGrams)}g or less.`,
     });
   });
+
+  constructor() {
+    this.coffeeInputChanges = toSignal(this.coffeeInput.valueChanges, {
+      initialValue: this.coffeeInput.value,
+    });
+  }
 
   onSubmit(): void {
     this.hasInteracted.set(true);

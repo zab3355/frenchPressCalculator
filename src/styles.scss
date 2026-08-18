@@ -305,6 +305,13 @@ h2 {
   margin: 0;
 }
 
+h1:focus-visible,
+h1:focus {
+  border-radius: 0.5rem;
+  outline: 3px solid color-mix(in srgb, var(--accent-2) 65%, transparent);
+  outline-offset: 6px;
+}
+
 h1 {
   font-size: clamp(2rem, 5vw, 3rem);
   line-height: 1.04;

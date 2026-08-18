@@ -41,7 +41,7 @@ export class CustomCursorComponent implements OnInit, OnDestroy {
       return;
     }
 
-    el.style.setProperty('transform', `translate3d(${event.clientX}px, ${event.clientY}px, 0)`);
+    el.style.setProperty('translate', `${event.clientX}px ${event.clientY}px`);
 
     const target = event.target as HTMLElement | null;
     const interactive = !!target?.closest?.('a, button, input, select, [role="tab"]');

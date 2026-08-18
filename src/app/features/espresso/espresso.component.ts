@@ -1,4 +1,5 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   EspressoCalculation,
@@ -40,7 +41,17 @@ export class EspressoComponent {
     return Math.max(15, Math.min(90, (yieldGrams / maxYield) * 100));
   });
 
+  /**
+   * FormControl.errors/.invalid/.dirty are plain properties, not signals —
+   * reading them inside computed() registers no dependency. This bridges
+   * the control's (synchronous validators) value into the signal graph so
+   * validationMessage actually recomputes on user input.
+   */
+  private readonly doseInputChanges: Signal<number | null>;
+
   readonly validationMessage = computed(() => {
+    this.doseInputChanges();
+
     if (!this.shouldShowErrors()) {
       return '';
     }
@@ -53,6 +64,9 @@ export class EspressoComponent {
   });
 
   constructor() {
+    this.doseInputChanges = toSignal(this.doseInput.valueChanges, {
+      initialValue: this.doseInput.value,
+    });
     this.ratioInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 
