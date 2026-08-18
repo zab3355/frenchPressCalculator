@@ -13,6 +13,7 @@
         step="1"
         [formControl]="servingsInput"
         [class.input-error]="shouldShowErrors()"
+        [attr.aria-invalid]="shouldShowErrors()"
         aria-describedby="matcha-help matcha-error"
       />
       <select [formControl]="styleInput" aria-label="Matcha style">
@@ -31,7 +32,7 @@
   </p>
 
   @if (validationMessage()) {
-    <p id="matcha-error" class="error-message">{{ validationMessage() }}</p>
+    <p id="matcha-error" class="error-message" role="alert">{{ validationMessage() }}</p>
   }
 </section>
 
@@ -43,7 +44,12 @@
       <button type="button" (click)="setQuickServings(4)">4 servings</button>
     </div>
 
-    <div class="result-card" [class.result-empty]="!calculation()" data-testid="result-card">
+    <div
+      class="result-card"
+      [class.result-empty]="!calculation()"
+      data-testid="result-card"
+      aria-live="polite"
+    >
       @if (calculation()) {
         <h2>Recommended amounts</h2>
         <div class="result-metrics">

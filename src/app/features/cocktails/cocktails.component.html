@@ -18,6 +18,7 @@
         step="1"
         [formControl]="servingsInput"
         [class.input-error]="shouldShowErrors()"
+        [attr.aria-invalid]="shouldShowErrors()"
         aria-label="Servings"
         aria-describedby="cocktail-help cocktail-error"
       />
@@ -31,7 +32,7 @@
   </p>
 
   @if (validationMessage()) {
-    <p id="cocktail-error" class="error-message">{{ validationMessage() }}</p>
+    <p id="cocktail-error" class="error-message" role="alert">{{ validationMessage() }}</p>
   }
 </section>
 
@@ -43,7 +44,12 @@
       <button type="button" (click)="setQuickServings(8)">8 servings</button>
     </div>
 
-    <div class="result-card" [class.result-empty]="!scaledIngredients()" data-testid="result-card">
+    <div
+      class="result-card"
+      [class.result-empty]="!scaledIngredients()"
+      data-testid="result-card"
+      aria-live="polite"
+    >
       @if (scaledIngredients(); as ingredients) {
         <h2>{{ selectedRecipe().name }}</h2>
         <ul class="ingredient-list" data-testid="ingredient-list">

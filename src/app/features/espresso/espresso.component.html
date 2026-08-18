@@ -13,6 +13,7 @@
         step="0.1"
         [formControl]="doseInput"
         [class.input-error]="shouldShowErrors()"
+        [attr.aria-invalid]="shouldShowErrors()"
         aria-describedby="espresso-help espresso-error"
       />
       <select [formControl]="ratioInput" aria-label="Brew ratio style">
@@ -28,7 +29,7 @@
   <p id="espresso-help" class="helper">Recommended range: {{ minDose }}g to {{ maxDose }}g.</p>
 
   @if (validationMessage()) {
-    <p id="espresso-error" class="error-message">{{ validationMessage() }}</p>
+    <p id="espresso-error" class="error-message" role="alert">{{ validationMessage() }}</p>
   }
 </section>
 
@@ -40,7 +41,12 @@
       <button type="button" (click)="setQuickDose(20)">20g triple</button>
     </div>
 
-    <div class="result-card" [class.result-empty]="!calculation()" data-testid="result-card">
+    <div
+      class="result-card"
+      [class.result-empty]="!calculation()"
+      data-testid="result-card"
+      aria-live="polite"
+    >
       @if (calculation(); as calc) {
         <h2>Target yield</h2>
         <div class="result-metrics">

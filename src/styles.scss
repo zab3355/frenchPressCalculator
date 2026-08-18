@@ -16,6 +16,7 @@
   --danger: #b5443c;
   --panel-border: rgba(107, 66, 41, 0.18);
   --shadow-soft: 0 20px 45px rgba(67, 38, 20, 0.15);
+  --text-emphasis: var(--brand-700);
 }
 
 [data-theme='matcha'] {
@@ -33,6 +34,7 @@
   --danger: #b5443c;
   --panel-border: rgba(74, 103, 65, 0.2);
   --shadow-soft: 0 20px 45px rgba(31, 41, 22, 0.16);
+  --text-emphasis: var(--brand-700);
 }
 
 [data-theme='espresso'] {
@@ -47,9 +49,10 @@
   --brand-300: #c9a37c;
   --accent-1: #c89b3c;
   --accent-2: #8c5a3c;
-  --danger: #c0392b;
+  --danger: #a02a1d;
   --panel-border: rgba(42, 24, 16, 0.24);
   --shadow-soft: 0 24px 50px rgba(20, 12, 8, 0.28);
+  --text-emphasis: var(--brand-700);
 }
 
 [data-theme='cocktails'] {
@@ -67,10 +70,29 @@
   --danger: #ff6b6b;
   --panel-border: rgba(232, 163, 61, 0.22);
   --shadow-soft: 0 24px 50px rgba(10, 4, 12, 0.45);
+  --text-emphasis: var(--brand-300);
 }
 
 * {
   box-sizing: border-box;
+}
+
+.skip-link {
+  background: var(--brand-700);
+  border-radius: 0 0 0.5rem 0;
+  color: #fff;
+  font-weight: 600;
+  left: 0;
+  padding: 0.75rem 1.25rem;
+  position: absolute;
+  top: 0;
+  transform: translateY(-100%);
+  transition: transform 180ms ease;
+  z-index: 100;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
 }
 
 html,
@@ -231,7 +253,7 @@ h2 {
 .input-row input,
 .input-row select {
   background: var(--surface-paper);
-  border: 1px solid color-mix(in srgb, var(--ink-500) 45%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink-500) 70%, transparent);
   border-radius: 0.8rem;
   color: var(--ink-900);
   flex: 1;
@@ -263,7 +285,7 @@ input[type='number']::-webkit-inner-spin-button {
 
 .input-row button,
 .quick-actions button {
-  background: linear-gradient(135deg, var(--brand-500), var(--brand-700));
+  background: linear-gradient(135deg, var(--brand-600), var(--brand-700));
   border: none;
   border-radius: 0.8rem;
   color: #fff;
@@ -345,7 +367,7 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .metric-value {
-  color: var(--brand-700);
+  color: var(--text-emphasis);
   font-family: 'Fraunces', Georgia, serif;
   font-size: clamp(1.8rem, 4vw, 2.2rem);
   line-height: 1;
@@ -421,7 +443,7 @@ input[type='number']::-webkit-inner-spin-button {
     color-mix(in srgb, var(--brand-500) 18%, transparent),
     transparent
   );
-  color: var(--brand-700);
+  color: var(--text-emphasis);
 }
 
 .nav-tab-icon {
