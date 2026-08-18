@@ -1,0 +1,73 @@
+<section class="hero panel reveal">
+  <p class="eyebrow">Cocktail Recipe Scaler</p>
+  <h1>How much of each ingredient do you need?</h1>
+  <form class="calculator-form" (ngSubmit)="onSubmit()">
+    <label for="cocktail-recipe">Recipe</label>
+    <div class="input-row">
+      <select id="cocktail-recipe" [formControl]="recipeInput" aria-label="Cocktail recipe">
+        @for (recipe of recipes; track recipe.id) {
+          <option [value]="recipe.id">{{ recipe.name }}</option>
+        }
+      </select>
+      <input
+        id="cocktail-servings"
+        type="number"
+        inputmode="numeric"
+        [attr.min]="minServings"
+        [attr.max]="maxServings"
+        step="1"
+        [formControl]="servingsInput"
+        [class.input-error]="shouldShowErrors()"
+        aria-label="Servings"
+        aria-describedby="cocktail-help cocktail-error"
+      />
+      <button type="submit">Calculate</button>
+    </div>
+  </form>
+
+  <p class="hero-copy">Pick a classic recipe and scale it to any number of servings.</p>
+  <p id="cocktail-help" class="helper">
+    Recommended range: {{ minServings }} to {{ maxServings }} servings.
+  </p>
+
+  @if (validationMessage()) {
+    <p id="cocktail-error" class="error-message">{{ validationMessage() }}</p>
+  }
+</section>
+
+<section class="workspace-grid">
+  <article class="panel reveal calculator-panel">
+    <div class="quick-actions" aria-label="Quick presets">
+      <button type="button" (click)="setQuickServings(1)">1 serving</button>
+      <button type="button" (click)="setQuickServings(4)">4 servings</button>
+      <button type="button" (click)="setQuickServings(8)">8 servings</button>
+    </div>
+
+    <div class="result-card" [class.result-empty]="!scaledIngredients()" data-testid="result-card">
+      @if (scaledIngredients(); as ingredients) {
+        <h2>{{ selectedRecipe().name }}</h2>
+        <ul class="ingredient-list" data-testid="ingredient-list">
+          @for (ingredient of ingredients; track ingredient.name) {
+            <li>{{ formatAmount(ingredient.amount) }} {{ ingredient.unit }} {{ ingredient.name }}</li>
+          }
+        </ul>
+        <p class="math-line">Garnish: {{ selectedRecipe().garnish }}</p>
+        <p class="math-line">{{ selectedRecipe().instructions }}</p>
+      } @else {
+        <h2>Add servings to see the scaled recipe</h2>
+      }
+    </div>
+  </article>
+
+  <article class="panel reveal visual-panel">
+    <div class="cocktail-scene" aria-hidden="true">
+      <div class="shaker"></div>
+      <div class="cocktail-glass">
+        <div class="cocktail-liquid"></div>
+        <div class="cocktail-garnish"></div>
+      </div>
+    </div>
+
+    <p class="visual-note">Shake or stir depending on the recipe, then strain over fresh ice.</p>
+  </article>
+</section>
