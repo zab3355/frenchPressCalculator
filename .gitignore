@@ -25,6 +25,10 @@ yarn-error.log
 .husky/
 .history/*
 
+# Claude Code
+.claude/
+docs/
+
 # Miscellaneous
 /.angular/cache
 .sass-cache/
