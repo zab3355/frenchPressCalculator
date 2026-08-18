@@ -4,7 +4,7 @@ import {
   BrewCalculation,
   FrenchPressCalculatorService,
 } from './core/calculator/french-press-calculator.service';
-import { ValidationMessageService } from './core/services/validation-message.service';
+import { ValidationMessageService, ValidationRangeMessages } from './core/services/validation-message.service';
 import { FooterComponent } from './shared/footer/footer.component';
 import { formatDecimal } from './core/utils/number-formatter';
 
@@ -46,12 +46,15 @@ export class AppComponent {
       return '';
     }
 
+    const messages: ValidationRangeMessages = {
+      requiredMessage: 'Add how many grams of coffee you have.',
+      minMessage: `Use at least ${this.minGrams.toFixed(2)}g for about ${this.minCups} cup.`,
+      maxMessage: `This french press holds up to ${this.maxCups} cups. Use ${Math.floor(this.maxGrams)}g or less.`,
+    };
+
     return this.validationService.getValidationMessage(
       this.coffeeInput.errors,
-      this.minGrams,
-      this.maxGrams,
-      this.minCups,
-      this.maxCups
+      messages
     );
   });
 

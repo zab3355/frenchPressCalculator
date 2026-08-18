@@ -4,6 +4,13 @@ import { ValidationMessageService } from './validation-message.service';
 describe('ValidationMessageService', () => {
   let service: ValidationMessageService;
 
+  const messages = {
+    requiredMessage: 'This field is required.',
+    minMessage: 'Value is too small.',
+    maxMessage: 'Value is too large.',
+    invalidMessage: 'This value is not valid.',
+  };
+
   beforeEach(() => {
     TestBed.configureTestingModule({});
     service = TestBed.inject(ValidationMessageService);
@@ -13,87 +20,45 @@ describe('ValidationMessageService', () => {
     expect(service).toBeTruthy();
   });
 
-  describe('getValidationMessage', () => {
-    const minGrams = 3.75;
-    const maxGrams = 90;
-    const minCups = 0.25;
-    const maxCups = 6;
+  it('returns an empty string when there are no errors', () => {
+    expect(service.getValidationMessage(null, messages)).toBe('');
+    expect(service.getValidationMessage({}, messages)).toBe('');
+  });
 
-    it('returns empty string when errors are null', () => {
-      const message = service.getValidationMessage(null, minGrams, maxGrams, minCups, maxCups);
-      expect(message).toBe('');
-    });
+  it('returns the required message for a required error', () => {
+    expect(service.getValidationMessage({ required: true }, messages)).toBe(
+      'This field is required.'
+    );
+  });
 
-    it('returns empty string when errors object is empty', () => {
-      const message = service.getValidationMessage({}, minGrams, maxGrams, minCups, maxCups);
-      expect(message).toBe('');
-    });
+  it('returns the min message for a min error', () => {
+    expect(service.getValidationMessage({ min: { min: 5, actual: 1 } }, messages)).toBe(
+      'Value is too small.'
+    );
+  });
 
-    it('returns required message for required error', () => {
-      const errors = { required: true };
-      const message = service.getValidationMessage(errors, minGrams, maxGrams, minCups, maxCups);
+  it('returns the max message for a max error', () => {
+    expect(service.getValidationMessage({ max: { max: 5, actual: 9 } }, messages)).toBe(
+      'Value is too large.'
+    );
+  });
 
-      expect(message).toBe('Add how many grams of coffee you have.');
-    });
+  it('returns the invalid message for an unrecognized error when provided', () => {
+    expect(service.getValidationMessage({ integer: true }, messages)).toBe(
+      'This value is not valid.'
+    );
+  });
 
-    it('returns min message with correct values', () => {
-      const errors = { min: { min: minGrams, actual: 1 } };
-      const message = service.getValidationMessage(errors, minGrams, maxGrams, minCups, maxCups);
+  it('falls back to a generic message when invalidMessage is not provided', () => {
+    const { invalidMessage, ...withoutInvalid } = messages;
+    expect(service.getValidationMessage({ integer: true }, withoutInvalid)).toBe(
+      'Enter a valid amount.'
+    );
+  });
 
-      expect(message).toContain('Use at least');
-      expect(message).toContain('3.75g');
-      expect(message).toContain('0.25');
-    });
-
-    it('returns max message with correct values', () => {
-      const errors = { max: { max: maxGrams, actual: 100 } };
-      const message = service.getValidationMessage(errors, minGrams, maxGrams, minCups, maxCups);
-
-      expect(message).toContain('french press holds up to');
-      expect(message).toContain('6');
-      expect(message).toContain('90g');
-    });
-
-    it('prioritizes required error over others', () => {
-      const errors = { required: true, min: true, max: true };
-      const message = service.getValidationMessage(errors, minGrams, maxGrams, minCups, maxCups);
-
-      expect(message).toBe('Add how many grams of coffee you have.');
-    });
-
-    it('returns min message if required is not present', () => {
-      const errors = { min: true, max: true };
-      const message = service.getValidationMessage(errors, minGrams, maxGrams, minCups, maxCups);
-
-      expect(message).toContain('Use at least');
-    });
-
-    it('returns max message if only max error exists', () => {
-      const errors = { max: true };
-      const message = service.getValidationMessage(errors, minGrams, maxGrams, minCups, maxCups);
-
-      expect(message).toContain('french press holds up to');
-    });
-
-    it('returns generic message for unknown error types', () => {
-      const errors = { customError: true };
-      const message = service.getValidationMessage(errors, minGrams, maxGrams, minCups, maxCups);
-
-      expect(message).toBe('Enter a valid coffee amount.');
-    });
-
-    it('formats min value with 2 decimal places', () => {
-      const errors = { min: true };
-      const message = service.getValidationMessage(errors, 3.7, maxGrams, minCups, maxCups);
-
-      expect(message).toContain('3.70g');
-    });
-
-    it('formats max value as integer without decimals', () => {
-      const errors = { max: true };
-      const message = service.getValidationMessage(errors, minGrams, 89.5, minCups, maxCups);
-
-      expect(message).toContain('89g');
-    });
+  it('prioritizes required over min and max when multiple errors are present', () => {
+    expect(
+      service.getValidationMessage({ required: true, min: { min: 5, actual: 1 } }, messages)
+    ).toBe('This field is required.');
   });
 });
