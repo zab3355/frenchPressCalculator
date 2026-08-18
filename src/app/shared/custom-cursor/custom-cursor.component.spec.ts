@@ -37,8 +37,7 @@ describe('CustomCursorComponent', () => {
     expect(document.body.classList.contains('custom-cursor-active')).toBe(true);
 
     const compiled = fixture.nativeElement as HTMLElement;
-    expect(compiled.querySelector('.custom-cursor-dot')).toBeTruthy();
-    expect(compiled.querySelector('.custom-cursor-ring')).toBeTruthy();
+    expect(compiled.querySelector('.custom-cursor-arrow')).toBeTruthy();
   });
 
   it('stays disabled on touch devices (no hover/fine pointer)', async () => {
@@ -53,7 +52,7 @@ describe('CustomCursorComponent', () => {
 
     expect(fixture.componentInstance.enabled).toBe(false);
     expect(document.body.classList.contains('custom-cursor-active')).toBe(false);
-    expect((fixture.nativeElement as HTMLElement).querySelector('.custom-cursor-dot')).toBeNull();
+    expect((fixture.nativeElement as HTMLElement).querySelector('.custom-cursor-arrow')).toBeNull();
   });
 
   it('stays disabled when prefers-reduced-motion is set', async () => {
@@ -81,7 +80,7 @@ describe('CustomCursorComponent', () => {
 
     window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 80 }));
 
-    const dot = (fixture.nativeElement as HTMLElement).querySelector<HTMLElement>('.custom-cursor-dot');
-    expect(dot?.style.transform).toBe('translate3d(120px, 80px, 0)');
+    const arrow = (fixture.nativeElement as HTMLElement).querySelector<SVGElement>('.custom-cursor-arrow');
+    expect(arrow?.style.transform).toBe('translate3d(120px, 80px, 0)');
   });
 });

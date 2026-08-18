@@ -11,18 +11,19 @@ import {
 } from '@angular/core';
 
 /**
- * Themed dot+ring cursor that follows the pointer and grows over interactive
- * elements. Only activates for mouse-capable, motion-tolerant visitors:
- * touch devices (no hover/fine pointer) and `prefers-reduced-motion` both
- * opt out entirely, leaving the native cursor untouched.
+ * Themed arrow cursor that follows the pointer and grows slightly over
+ * interactive elements. Only activates for mouse-capable, motion-tolerant
+ * visitors: touch devices (no hover/fine pointer) and `prefers-reduced-motion`
+ * both opt out entirely, leaving the native cursor untouched.
  */
 @Component({
   selector: 'app-custom-cursor',
   standalone: true,
   template: `
     @if (enabled) {
-      <div #dot class="custom-cursor-dot" aria-hidden="true"></div>
-      <div #ring class="custom-cursor-ring" aria-hidden="true"></div>
+      <svg #arrow class="custom-cursor-arrow" viewBox="0 0 20 20" aria-hidden="true">
+        <path d="M1 1 L1 14.7 L5.1 11.4 L7.8 17.7 L10.4 16.5 L7.7 10.4 L13.2 10.4 Z" />
+      </svg>
     }
   `,
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -30,19 +31,21 @@ import {
 export class CustomCursorComponent implements OnInit, OnDestroy {
   private readonly platformId = inject(PLATFORM_ID);
 
-  @ViewChild('dot') private readonly dotRef?: ElementRef<HTMLElement>;
-  @ViewChild('ring') private readonly ringRef?: ElementRef<HTMLElement>;
+  @ViewChild('arrow') private readonly arrowRef?: ElementRef<SVGElement>;
 
   enabled = false;
 
   private readonly onMouseMove = (event: MouseEvent): void => {
-    const transform = `translate3d(${event.clientX}px, ${event.clientY}px, 0)`;
-    this.dotRef?.nativeElement.style.setProperty('transform', transform);
-    this.ringRef?.nativeElement.style.setProperty('transform', transform);
+    const el = this.arrowRef?.nativeElement;
+    if (!el) {
+      return;
+    }
+
+    el.style.setProperty('transform', `translate3d(${event.clientX}px, ${event.clientY}px, 0)`);
 
     const target = event.target as HTMLElement | null;
     const interactive = !!target?.closest?.('a, button, input, select, [role="tab"]');
-    this.ringRef?.nativeElement.classList.toggle('custom-cursor-ring--active', interactive);
+    el.classList.toggle('custom-cursor-arrow--active', interactive);
   };
 
   ngOnInit(): void {

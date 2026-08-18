@@ -5,8 +5,8 @@
 <app-navigation-tabs></app-navigation-tabs>
 
 <main id="main-content" class="fp-page" tabindex="-1">
-  <div class="ambient-shape ambient-shape-left" aria-hidden="true"></div>
-  <div class="ambient-shape ambient-shape-right" aria-hidden="true"></div>
+  <div class="ambient-shape ambient-shape-left" [appParallax]="0.12" aria-hidden="true"></div>
+  <div class="ambient-shape ambient-shape-right" [appParallax]="0.22" aria-hidden="true"></div>
 
   <router-outlet></router-outlet>
 </main>

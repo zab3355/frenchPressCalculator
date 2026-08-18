@@ -36,8 +36,12 @@
 }
 
 .social-links a:hover {
-  filter: drop-shadow(0 4px 8px color-mix(in srgb, var(--brand-700) 30%, transparent));
+  filter: drop-shadow(0 4px 8px color-mix(in srgb, var(--text-emphasis) 40%, transparent));
   transform: translateY(-2px) scale(1.06);
+}
+
+.social-links a:hover .social-icon {
+  color: var(--accent-1);
 }
 
 .social-links a:focus-visible {
@@ -47,8 +51,11 @@
 }
 
 .social-icon {
+  color: var(--text-emphasis);
   display: block;
+  fill: currentColor;
   height: 1.45rem;
+  transition: color 200ms ease;
   width: 1.45rem;
 }
 

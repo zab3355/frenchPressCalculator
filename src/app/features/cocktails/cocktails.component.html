@@ -85,6 +85,7 @@
         class="cocktail-glass"
         [class]="'cocktail-glass--' + selectedRecipe().glassType"
         [style.--liquid-fill]="fillPercent() + '%'"
+        [appPulseOnChange]="selectedRecipe().id"
       >
         <div
           class="cocktail-liquid"
@@ -94,6 +95,13 @@
         @if (selectedRecipe().method === 'build') {
           <div class="fizz-bubble fizz-bubble-a"></div>
           <div class="fizz-bubble fizz-bubble-b"></div>
+        }
+        @if (selectedRecipe().glassType === 'rocks' || selectedRecipe().glassType === 'highball') {
+          <div class="ice-cube ice-cube-a"></div>
+          <div class="ice-cube ice-cube-b"></div>
+        }
+        @if (selectedRecipe().glassType === 'highball') {
+          <div class="straw"></div>
         }
         <div
           class="cocktail-garnish"
