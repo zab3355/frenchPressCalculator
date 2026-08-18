@@ -6,12 +6,13 @@ import {
 } from '../../core/calculator/french-press-calculator.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
+import { PulseOnChangeDirective } from '../../shared/pulse-on-change/pulse-on-change.directive';
 import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 @Component({
   selector: 'app-french-press',
   standalone: true,
-  imports: [ReactiveFormsModule, ScrollRevealDirective],
+  imports: [ReactiveFormsModule, ScrollRevealDirective, PulseOnChangeDirective],
   templateUrl: './french-press.component.html',
 })
 export class FrenchPressComponent {

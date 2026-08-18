@@ -7,12 +7,13 @@ import {
 } from '../../core/calculator/espresso-calculator.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
+import { PulseOnChangeDirective } from '../../shared/pulse-on-change/pulse-on-change.directive';
 import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 @Component({
   selector: 'app-espresso',
   standalone: true,
-  imports: [ReactiveFormsModule, ScrollRevealDirective],
+  imports: [ReactiveFormsModule, ScrollRevealDirective, PulseOnChangeDirective],
   templateUrl: './espresso.component.html',
 })
 export class EspressoComponent {
@@ -33,6 +34,11 @@ export class EspressoComponent {
   );
 
   readonly displayYield = computed(() => formatDecimal(this.calculation()?.yieldGrams));
+  readonly fillPercent = computed(() => {
+    const yieldGrams = this.calculation()?.yieldGrams ?? 0;
+    const maxYield = this.maxDose * 3;
+    return Math.max(15, Math.min(90, (yieldGrams / maxYield) * 100));
+  });
 
   readonly validationMessage = computed(() => {
     if (!this.shouldShowErrors()) {

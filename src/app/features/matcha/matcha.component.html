@@ -55,11 +55,15 @@
         <div class="result-metrics">
           <div>
             <p class="metric-label">Matcha powder</p>
-            <p class="metric-value" data-testid="powder-value">{{ displayPowder() }}g</p>
+            <p class="metric-value" data-testid="powder-value" [appPulseOnChange]="displayPowder()">
+              {{ displayPowder() }}g
+            </p>
           </div>
           <div>
             <p class="metric-label">Water</p>
-            <p class="metric-value" data-testid="water-value">{{ displayWater() }}ml</p>
+            <p class="metric-value" data-testid="water-value" [appPulseOnChange]="displayWater()">
+              {{ displayWater() }}ml
+            </p>
           </div>
         </div>
 
@@ -70,9 +74,16 @@
     </div>
   </article>
 
-  <article class="panel reveal visual-panel" appScrollReveal>
+  <article
+    class="panel reveal visual-panel"
+    appScrollReveal
+    [style.--matcha-fill]="fillPercent() + '%'"
+  >
     <div class="matcha-scene" aria-hidden="true">
       <div class="matcha-bowl">
+        <div class="matcha-liquid-mask">
+          <div class="matcha-liquid"></div>
+        </div>
         <div class="matcha-foam"></div>
         <div class="matcha-whisk"></div>
       </div>

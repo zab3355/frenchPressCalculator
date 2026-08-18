@@ -13,6 +13,7 @@ import {
 } from '../../core/calculator/matcha-calculator.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
+import { PulseOnChangeDirective } from '../../shared/pulse-on-change/pulse-on-change.directive';
 import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 function integerValidator(control: AbstractControl): ValidationErrors | null {
@@ -22,7 +23,7 @@ function integerValidator(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-matcha',
   standalone: true,
-  imports: [ReactiveFormsModule, ScrollRevealDirective],
+  imports: [ReactiveFormsModule, ScrollRevealDirective, PulseOnChangeDirective],
   templateUrl: './matcha.component.html',
 })
 export class MatchaComponent {
@@ -47,6 +48,10 @@ export class MatchaComponent {
 
   readonly displayPowder = computed(() => formatDecimal(this.calculation()?.powderGrams));
   readonly displayWater = computed(() => formatDecimal(this.calculation()?.waterMl));
+  readonly fillPercent = computed(() => {
+    const servings = this.calculation()?.servings ?? 1;
+    return Math.max(20, Math.min(85, (servings / this.maxServings) * 85));
+  });
 
   readonly validationMessage = computed(() => {
     if (!this.shouldShowErrors()) {

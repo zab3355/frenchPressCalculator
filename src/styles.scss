@@ -164,33 +164,36 @@
   pointer-events: none;
   position: fixed;
   top: 0;
-  translate: -50% -50%;
   z-index: 9998;
 }
 
 .custom-cursor-dot {
   background: var(--text-emphasis);
-  border-radius: 50%;
-  height: 6px;
+  clip-path: polygon(0% 0%, 0% 72%, 24% 55%, 40% 100%, 56% 93%, 40% 50%, 68% 50%);
+  filter: drop-shadow(0 1px 2px rgba(0, 0, 0, 0.35));
+  height: 24px;
   transition: background-color 300ms ease;
-  width: 6px;
+  width: 19px;
 }
 
 .custom-cursor-ring {
   border: 1.5px solid var(--accent-1);
   border-radius: 50%;
-  height: 32px;
+  height: 30px;
+  margin: -9px 0 0 -3px;
   transition:
     width 180ms ease,
     height 180ms ease,
+    margin 180ms ease,
     border-color 300ms ease;
-  width: 32px;
+  width: 30px;
 }
 
 .custom-cursor-ring--active {
   border-color: var(--text-emphasis);
-  height: 48px;
-  width: 48px;
+  height: 44px;
+  margin: -16px 0 0 -10px;
+  width: 44px;
 }
 
 html,
@@ -744,6 +747,26 @@ input[type='number']::-webkit-inner-spin-button {
   width: 220px;
 }
 
+.matcha-liquid-mask {
+  border-radius: 0 0 90px 90px / 0 0 60px 60px;
+  bottom: 0;
+  left: 0;
+  overflow: hidden;
+  position: absolute;
+  right: 0;
+  top: 0;
+}
+
+.matcha-liquid {
+  background: linear-gradient(180deg, var(--accent-1), var(--brand-600));
+  bottom: 0;
+  height: var(--matcha-fill, 45%);
+  left: 0;
+  position: absolute;
+  right: 0;
+  transition: height 700ms cubic-bezier(0.2, 0.7, 0.15, 1);
+}
+
 .matcha-foam {
   animation: matcha-swirl 3200ms ease-in-out infinite;
   background: radial-gradient(circle at 40% 35%, var(--accent-1), var(--brand-600) 75%);
@@ -818,6 +841,16 @@ input[type='number']::-webkit-inner-spin-button {
   position: absolute;
   transform: translateX(-50%);
   width: 90px;
+}
+
+.espresso-liquid {
+  background: linear-gradient(180deg, var(--accent-1), var(--brand-700));
+  bottom: 0;
+  height: var(--espresso-fill, 40%);
+  left: 0;
+  position: absolute;
+  right: 0;
+  transition: height 700ms cubic-bezier(0.2, 0.7, 0.15, 1);
 }
 
 .crema-drip {
@@ -941,7 +974,7 @@ input[type='number']::-webkit-inner-spin-button {
 
 .cocktail-liquid {
   bottom: 0;
-  height: 60%;
+  height: var(--liquid-fill, 60%);
   left: 0;
   position: absolute;
   right: 0;
@@ -1169,10 +1202,10 @@ input[type='number']::-webkit-inner-spin-button {
     height: 0%;
   }
   60% {
-    height: 60%;
+    height: var(--liquid-fill, 60%);
   }
   100% {
-    height: 60%;
+    height: var(--liquid-fill, 60%);
   }
 }
 
@@ -1270,6 +1303,33 @@ input[type='number']::-webkit-inner-spin-button {
   background: transparent;
   border: 1px solid var(--panel-border);
   color: var(--ink-700);
+}
+
+/* Pulse-on-change */
+
+.pulse-on-change {
+  animation: metric-pulse 420ms ease;
+}
+
+@keyframes metric-pulse {
+  0% {
+    transform: scale(1);
+  }
+  35% {
+    transform: scale(1.08);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+/* Button press feedback */
+
+.input-row button:active,
+.quick-actions button:active,
+.nav-tab:active,
+.age-gate-actions button:active {
+  transform: scale(0.96);
 }
 
 @media (min-width: 900px) {

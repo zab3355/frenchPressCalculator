@@ -52,11 +52,15 @@
         <div class="result-metrics">
           <div>
             <p class="metric-label">Yield</p>
-            <p class="metric-value" data-testid="yield-value">{{ displayYield() }}g</p>
+            <p class="metric-value" data-testid="yield-value" [appPulseOnChange]="displayYield()">
+              {{ displayYield() }}g
+            </p>
           </div>
           <div>
             <p class="metric-label">Shot time</p>
-            <p class="metric-value" data-testid="time-value">{{ calc.shotTimeRange }}</p>
+            <p class="metric-value" data-testid="time-value" [appPulseOnChange]="calc.shotTimeRange">
+              {{ calc.shotTimeRange }}
+            </p>
           </div>
         </div>
 
@@ -67,10 +71,15 @@
     </div>
   </article>
 
-  <article class="panel reveal visual-panel" appScrollReveal>
+  <article
+    class="panel reveal visual-panel"
+    appScrollReveal
+    [style.--espresso-fill]="fillPercent() + '%'"
+  >
     <div class="espresso-scene" aria-hidden="true">
       <div class="portafilter"></div>
       <div class="espresso-cup">
+        <div class="espresso-liquid"></div>
         <div class="crema-drip"></div>
       </div>
     </div>

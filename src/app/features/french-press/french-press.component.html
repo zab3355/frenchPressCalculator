@@ -60,11 +60,11 @@
         <div class="result-metrics">
           <div>
             <p class="metric-label">Cups</p>
-            <p class="metric-value" data-testid="cups-value">{{ displayCups() }}</p>
+            <p class="metric-value" data-testid="cups-value" [appPulseOnChange]="displayCups()">{{ displayCups() }}</p>
           </div>
           <div>
             <p class="metric-label">Liters</p>
-            <p class="metric-value" data-testid="liters-value">{{ displayLiters() }}</p>
+            <p class="metric-value" data-testid="liters-value" [appPulseOnChange]="displayLiters()">{{ displayLiters() }}</p>
           </div>
         </div>
 

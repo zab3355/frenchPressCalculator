@@ -16,6 +16,7 @@ import {
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
 import { AgeGateComponent } from '../../shared/age-gate/age-gate.component';
+import { PulseOnChangeDirective } from '../../shared/pulse-on-change/pulse-on-change.directive';
 import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 function integerValidator(control: AbstractControl): ValidationErrors | null {
@@ -25,7 +26,7 @@ function integerValidator(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-cocktails',
   standalone: true,
-  imports: [ReactiveFormsModule, ScrollRevealDirective, AgeGateComponent],
+  imports: [ReactiveFormsModule, ScrollRevealDirective, AgeGateComponent, PulseOnChangeDirective],
   templateUrl: './cocktails.component.html',
 })
 export class CocktailsComponent {
@@ -57,6 +58,11 @@ export class CocktailsComponent {
   readonly selectedRecipe = computed<CocktailRecipe>(() => {
     const recipe = this.recipes.find((r) => r.id === this.recipeInput.value);
     return recipe ?? this.recipes[0];
+  });
+
+  readonly fillPercent = computed(() => {
+    const servings = this.scaledIngredients() ? (this.servingsInput.value ?? 1) : 1;
+    return Math.max(30, Math.min(85, (servings / this.maxServings) * 85));
   });
 
   readonly validationMessage = computed(() => {
