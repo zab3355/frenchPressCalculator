@@ -1,0 +1,77 @@
+<section class="hero panel reveal">
+  <p class="eyebrow">Matcha Ratio Guide</p>
+  <h1>How much matcha should you whisk?</h1>
+  <form class="calculator-form" (ngSubmit)="onSubmit()">
+    <label for="matcha-servings">Servings</label>
+    <div class="input-row">
+      <input
+        id="matcha-servings"
+        type="number"
+        inputmode="numeric"
+        [attr.min]="minServings"
+        [attr.max]="maxServings"
+        step="1"
+        [formControl]="servingsInput"
+        [class.input-error]="shouldShowErrors()"
+        aria-describedby="matcha-help matcha-error"
+      />
+      <select [formControl]="styleInput" aria-label="Matcha style">
+        <option value="usucha">Usucha (thin)</option>
+        <option value="koicha">Koicha (thick)</option>
+      </select>
+      <button type="submit">Calculate</button>
+    </div>
+  </form>
+
+  <p class="hero-copy">
+    Usucha uses a lighter ratio for everyday tea; koicha is a thicker, more concentrated style.
+  </p>
+  <p id="matcha-help" class="helper">
+    Recommended range: {{ minServings }} to {{ maxServings }} servings.
+  </p>
+
+  @if (validationMessage()) {
+    <p id="matcha-error" class="error-message">{{ validationMessage() }}</p>
+  }
+</section>
+
+<section class="workspace-grid">
+  <article class="panel reveal calculator-panel">
+    <div class="quick-actions" aria-label="Quick presets">
+      <button type="button" (click)="setQuickServings(1)">1 serving</button>
+      <button type="button" (click)="setQuickServings(2)">2 servings</button>
+      <button type="button" (click)="setQuickServings(4)">4 servings</button>
+    </div>
+
+    <div class="result-card" [class.result-empty]="!calculation()" data-testid="result-card">
+      @if (calculation()) {
+        <h2>Recommended amounts</h2>
+        <div class="result-metrics">
+          <div>
+            <p class="metric-label">Matcha powder</p>
+            <p class="metric-value" data-testid="powder-value">{{ displayPowder() }}g</p>
+          </div>
+          <div>
+            <p class="metric-label">Water</p>
+            <p class="metric-value" data-testid="water-value">{{ displayWater() }}ml</p>
+          </div>
+        </div>
+
+        <p class="math-line">{{ calculation()?.tempGuidance }}</p>
+      } @else {
+        <h2>Add servings to see matcha guidance</h2>
+      }
+    </div>
+  </article>
+
+  <article class="panel reveal visual-panel">
+    <div class="matcha-scene" aria-hidden="true">
+      <div class="matcha-bowl">
+        <div class="matcha-foam"></div>
+        <div class="matcha-whisk"></div>
+      </div>
+    </div>
+
+    <p class="visual-note">Whisk briskly in a "W" motion until a fine layer of foam forms.</p>
+  </article>
+</section>
