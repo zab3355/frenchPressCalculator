@@ -42,6 +42,7 @@ describe('ThemeService', () => {
   it('applies the current route theme when init is called', async () => {
     await router.navigateByUrl('/matcha');
     service.init();
+    TestBed.tick();
 
     expect(service.currentTheme()).toBe('matcha');
     expect(document.documentElement.dataset['theme']).toBe('matcha');
@@ -50,11 +51,13 @@ describe('ThemeService', () => {
   it('updates the theme on subsequent navigation', async () => {
     service.init();
     await router.navigateByUrl('/espresso');
+    TestBed.tick();
 
     expect(service.currentTheme()).toBe('espresso');
     expect(document.documentElement.dataset['theme']).toBe('espresso');
 
     await router.navigateByUrl('/cocktails');
+    TestBed.tick();
 
     expect(service.currentTheme()).toBe('cocktails');
     expect(document.documentElement.dataset['theme']).toBe('cocktails');
