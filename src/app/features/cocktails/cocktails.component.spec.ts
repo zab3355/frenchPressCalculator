@@ -3,9 +3,14 @@ import { CocktailsComponent } from './cocktails.component';
 
 describe('CocktailsComponent', () => {
   beforeEach(async () => {
+    sessionStorage.clear();
     await TestBed.configureTestingModule({
       imports: [CocktailsComponent],
     }).compileComponents();
+  });
+
+  afterEach(() => {
+    sessionStorage.clear();
   });
 
   it('should create the component', () => {
@@ -78,5 +83,45 @@ describe('CocktailsComponent', () => {
     const compiled = fixture.nativeElement as HTMLElement;
     const list = compiled.querySelector('[data-testid="ingredient-list"]');
     expect(list?.children.length).toBe(3);
+  });
+
+  describe('age gate', () => {
+    it('blurs and inerts the content and shows the dialog when unverified', () => {
+      const fixture = TestBed.createComponent(CocktailsComponent);
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const content = compiled.querySelector('.age-gate-content');
+      expect(content?.classList.contains('age-gate-content--blurred')).toBe(true);
+      expect(content?.getAttribute('inert')).toBe('');
+      expect(compiled.querySelector('[role="dialog"]')).toBeTruthy();
+    });
+
+    it('unblurs and removes the gate once confirmed', () => {
+      const fixture = TestBed.createComponent(CocktailsComponent);
+      fixture.detectChanges();
+
+      fixture.componentInstance.ageGate.confirm();
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const content = compiled.querySelector('.age-gate-content');
+      expect(content?.classList.contains('age-gate-content--blurred')).toBe(false);
+      expect(content?.getAttribute('inert')).toBeNull();
+      expect(compiled.querySelector('[role="dialog"]')).toBeNull();
+    });
+
+    it('keeps content blurred and shows the restricted message once denied', () => {
+      const fixture = TestBed.createComponent(CocktailsComponent);
+      fixture.detectChanges();
+
+      fixture.componentInstance.ageGate.deny();
+      fixture.detectChanges();
+
+      const compiled = fixture.nativeElement as HTMLElement;
+      const content = compiled.querySelector('.age-gate-content');
+      expect(content?.classList.contains('age-gate-content--blurred')).toBe(true);
+      expect(compiled.querySelector('[role="alert"]')?.textContent).toContain('Access restricted');
+    });
   });
 });

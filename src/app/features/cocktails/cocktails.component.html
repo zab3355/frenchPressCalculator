@@ -1,6 +1,12 @@
+<div class="age-gate-wrapper">
+  <div
+    class="age-gate-content"
+    [class.age-gate-content--blurred]="ageGate.status() !== 'confirmed'"
+    [attr.inert]="ageGate.status() !== 'confirmed' ? '' : null"
+  >
 <section class="hero panel reveal" appScrollReveal>
   <p class="eyebrow">Cocktail Recipe Scaler</p>
-  <h1>How much of each ingredient do you need?</h1>
+  <h1 #heading tabindex="-1">How much of each ingredient do you need?</h1>
   <form class="calculator-form" (ngSubmit)="onSubmit()">
     <label for="cocktail-recipe">Recipe</label>
     <div class="input-row">
@@ -97,3 +103,9 @@
     <p class="visual-note">{{ selectedRecipe().instructions }}</p>
   </article>
 </section>
+  </div>
+
+  @if (ageGate.status() !== 'confirmed') {
+    <app-age-gate (confirmed)="onAgeConfirmed()"></app-age-gate>
+  }
+</div>

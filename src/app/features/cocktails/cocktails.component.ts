@@ -1,4 +1,4 @@
-import { Component, computed, inject, signal } from '@angular/core';
+import { Component, computed, ElementRef, inject, signal, ViewChild } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -6,6 +6,7 @@ import {
   ValidationErrors,
   Validators,
 } from '@angular/forms';
+import { AgeGateService } from '../../core/age-gate/age-gate.service';
 import { CocktailScalingService } from '../../core/calculator/cocktail-scaling.service';
 import {
   COCKTAIL_RECIPES,
@@ -14,6 +15,7 @@ import {
 } from '../../core/data/cocktails.data';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
+import { AgeGateComponent } from '../../shared/age-gate/age-gate.component';
 import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 
 function integerValidator(control: AbstractControl): ValidationErrors | null {
@@ -23,12 +25,15 @@ function integerValidator(control: AbstractControl): ValidationErrors | null {
 @Component({
   selector: 'app-cocktails',
   standalone: true,
-  imports: [ReactiveFormsModule, ScrollRevealDirective],
+  imports: [ReactiveFormsModule, ScrollRevealDirective, AgeGateComponent],
   templateUrl: './cocktails.component.html',
 })
 export class CocktailsComponent {
   private readonly scalingService = inject(CocktailScalingService);
   private readonly validationService = inject(ValidationMessageService);
+  readonly ageGate = inject(AgeGateService);
+
+  @ViewChild('heading') private readonly headingRef?: ElementRef<HTMLElement>;
 
   readonly recipes = COCKTAIL_RECIPES;
   readonly minServings = 1;
@@ -84,6 +89,10 @@ export class CocktailsComponent {
 
   shouldShowErrors(): boolean {
     return this.servingsInput.invalid && (this.servingsInput.dirty || this.hasInteracted());
+  }
+
+  onAgeConfirmed(): void {
+    setTimeout(() => this.headingRef?.nativeElement.focus());
   }
 
   formatAmount(amount: number): string {
