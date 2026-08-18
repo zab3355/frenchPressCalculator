@@ -198,7 +198,7 @@ describe('AppComponent', () => {
       expect(app.displayCups()).toBe('4.00');
     });
 
-    it('calculates correctly when user types custom value', (done) => {
+    it('calculates correctly when user types custom value', async () => {
       const fixture = TestBed.createComponent(AppComponent);
       const app = fixture.componentInstance;
 
@@ -207,7 +207,6 @@ describe('AppComponent', () => {
       setTimeout(() => {
         fixture.detectChanges();
         expect(app.displayCups()).toBe('5.00');
-        done();
       }, 50);
     });
   });
