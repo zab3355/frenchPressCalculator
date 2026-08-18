@@ -67,13 +67,33 @@
 
   <article class="panel reveal visual-panel">
     <div class="cocktail-scene" aria-hidden="true">
-      <div class="shaker"></div>
-      <div class="cocktail-glass">
-        <div class="cocktail-liquid"></div>
-        <div class="cocktail-garnish"></div>
+      @if (selectedRecipe().method === 'shake') {
+        <div class="shaker"></div>
+      }
+      @if (selectedRecipe().method === 'stir') {
+        <div class="stir-spoon"></div>
+      }
+      <div class="cocktail-glass" [class]="'cocktail-glass--' + selectedRecipe().glassType">
+        @if (selectedRecipe().glassType === 'copper-mug') {
+          <div class="mug-handle"></div>
+        }
+        <div
+          class="cocktail-liquid"
+          [class]="'cocktail-liquid--' + selectedRecipe().method"
+          [style.backgroundColor]="selectedRecipe().liquidColor"
+        ></div>
+        @if (selectedRecipe().method === 'build') {
+          <div class="fizz-bubble fizz-bubble-a"></div>
+          <div class="fizz-bubble fizz-bubble-b"></div>
+        }
+        <div
+          class="cocktail-garnish"
+          [class]="'cocktail-garnish--' + selectedRecipe().garnishShape"
+          [style.backgroundColor]="selectedRecipe().garnishColor"
+        ></div>
       </div>
     </div>
 
-    <p class="visual-note">Shake or stir depending on the recipe, then strain over fresh ice.</p>
+    <p class="visual-note">{{ selectedRecipe().instructions }}</p>
   </article>
 </section>

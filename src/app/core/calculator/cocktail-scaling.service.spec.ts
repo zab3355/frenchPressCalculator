@@ -14,6 +14,11 @@ describe('CocktailScalingService', () => {
     ],
     garnish: 'Twist',
     instructions: 'Stir and strain.',
+    glassType: 'rocks',
+    method: 'stir',
+    liquidColor: '#c17a3a',
+    garnishShape: 'twist',
+    garnishColor: '#e8a33d',
   };
 
   beforeEach(() => {

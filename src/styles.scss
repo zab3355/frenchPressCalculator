@@ -758,20 +758,87 @@ input[type='number']::-webkit-inner-spin-button {
   width: 60px;
 }
 
+.stir-spoon {
+  animation: whisk-stir 1400ms ease-in-out infinite;
+  background: linear-gradient(180deg, #d3d3d3, #8a8a8a);
+  border-radius: 3px;
+  height: 120px;
+  transform-origin: top center;
+  width: 5px;
+}
+
 .cocktail-glass {
   align-self: flex-end;
-  border-bottom: 3px solid var(--brand-700);
-  border-left: 3px solid var(--brand-700);
-  border-right: 3px solid var(--brand-700);
-  height: 110px;
-  overflow: hidden;
   position: relative;
+}
+
+.cocktail-glass--rocks {
+  border: 3px solid var(--brand-700);
+  border-radius: 4px 4px 10px 10px;
+  height: 90px;
+  overflow: hidden;
+  width: 90px;
+}
+
+.cocktail-glass--coupe {
+  border: 3px solid var(--brand-700);
+  clip-path: polygon(0% 0%, 100% 0%, 52% 88%, 48% 88%);
+  height: 100px;
+  width: 120px;
+}
+
+.cocktail-glass--coupe::before {
+  background: var(--brand-700);
+  border-radius: 999px;
+  bottom: -38px;
+  content: '';
+  height: 3px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 44px;
+}
+
+.cocktail-glass--coupe::after {
+  background: var(--brand-700);
+  bottom: -38px;
+  content: '';
+  height: 36px;
+  left: 50%;
+  position: absolute;
+  transform: translateX(-50%);
+  width: 3px;
+}
+
+.cocktail-glass--highball {
+  border: 3px solid var(--brand-700);
+  border-radius: 6px;
+  height: 150px;
+  overflow: hidden;
+  width: 60px;
+}
+
+.cocktail-glass--copper-mug {
+  background: linear-gradient(180deg, #d3925a, #a9683a);
+  border-radius: 10px 10px 16px 16px;
+  height: 100px;
+  overflow: hidden;
   width: 80px;
 }
 
+.cocktail-glass--copper-mug::before {
+  border: 4px solid #a9683a;
+  border-left: none;
+  border-radius: 0 14px 14px 0;
+  content: '';
+  height: 48px;
+  position: absolute;
+  right: -20px;
+  top: 22px;
+  width: 22px;
+}
+
 .cocktail-liquid {
-  animation: pour-fill 2400ms ease-out infinite;
-  background: linear-gradient(180deg, var(--accent-1), var(--brand-600));
   bottom: 0;
   height: 60%;
   left: 0;
@@ -779,14 +846,99 @@ input[type='number']::-webkit-inner-spin-button {
   right: 0;
 }
 
+.cocktail-glass--copper-mug .cocktail-liquid {
+  border-radius: 3px 3px 0 0;
+  bottom: auto;
+  height: 16px;
+  top: 6px;
+}
+
+.cocktail-liquid--stir {
+  animation: liquid-stir 2200ms ease-in-out infinite;
+}
+
+.cocktail-liquid--shake {
+  animation: pour-fill 1800ms ease-out infinite;
+}
+
+.cocktail-liquid--build {
+  animation: pour-fill 3000ms ease-out infinite;
+}
+
+.fizz-bubble {
+  animation: bubble-up 2000ms ease-in infinite;
+  background: rgba(255, 255, 255, 0.55);
+  border-radius: 50%;
+  bottom: 10px;
+  height: 6px;
+  position: absolute;
+  width: 6px;
+}
+
+.fizz-bubble-a {
+  left: 32%;
+}
+
+.fizz-bubble-b {
+  animation-delay: 700ms;
+  left: 62%;
+}
+
 .cocktail-garnish {
-  background: var(--accent-2);
   border-radius: 50%;
   height: 16px;
   position: absolute;
   right: 6px;
   top: -8px;
   width: 16px;
+}
+
+.cocktail-garnish--twist {
+  border-radius: 50% 50% 0 0 / 60% 60% 0 0;
+  height: 22px;
+  right: 2px;
+  top: -14px;
+  transform: rotate(-25deg);
+  width: 8px;
+}
+
+.cocktail-garnish--wheel {
+  background-image: radial-gradient(circle, rgba(255, 255, 255, 0.55) 0 25%, transparent 26%);
+}
+
+.cocktail-garnish--mint {
+  border-radius: 0 100% 0 100%;
+  clip-path: polygon(0% 100%, 100% 100%, 50% 0%);
+  height: 20px;
+  top: -12px;
+  width: 16px;
+}
+
+.cocktail-garnish--olive {
+  border-radius: 50%;
+  height: 12px;
+  top: -6px;
+  width: 9px;
+}
+
+.cocktail-garnish--olive::after {
+  background: #a9683a;
+  content: '';
+  height: 1.5px;
+  left: -10px;
+  position: absolute;
+  top: 5px;
+  width: 12px;
+}
+
+.cocktail-garnish--cherry::after {
+  background: #4a7c3a;
+  content: '';
+  height: 8px;
+  left: 7px;
+  position: absolute;
+  top: -8px;
+  width: 1.5px;
 }
 
 @keyframes reveal-up {
@@ -851,6 +1003,16 @@ input[type='number']::-webkit-inner-spin-button {
   }
   50% {
     transform: translateX(6px) scale(1.03);
+  }
+}
+
+@keyframes liquid-stir {
+  0%,
+  100% {
+    transform: skewX(0deg);
+  }
+  50% {
+    transform: skewX(-4deg);
   }
 }
 
