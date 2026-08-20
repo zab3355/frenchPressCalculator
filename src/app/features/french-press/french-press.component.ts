@@ -50,7 +50,7 @@ export class FrenchPressComponent {
    */
   private readonly coffeeInputChanges: Signal<number | null>;
 
-  readonly displayGrams = computed(() => formatDecimal(this.coffeeInputChanges()));
+readonly displayGrams = computed(() => formatDecimal(this.calculation()?.coffeeGrams));
 
   readonly validationMessage = computed(() => {
     this.coffeeInputChanges();
