@@ -19,10 +19,7 @@ export interface ValidationRangeMessages {
  */
 @Injectable({ providedIn: 'root' })
 export class ValidationMessageService {
-  getValidationMessage(
-    errors: ValidationErrors | null,
-    messages: ValidationRangeMessages
-  ): string {
+  getValidationMessage(errors: ValidationErrors | null, messages: ValidationRangeMessages): string {
     if (!errors || Object.keys(errors).length === 0) {
       return '';
     }

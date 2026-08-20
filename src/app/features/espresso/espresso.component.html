@@ -25,7 +25,9 @@
     </div>
   </form>
 
-  <p class="hero-copy">Dial in your dose and pick a shot style to see target yield and pull time.</p>
+  <p class="hero-copy">
+    Dial in your dose and pick a shot style to see target yield and pull time.
+  </p>
   <p id="espresso-help" class="helper">Recommended range: {{ minDose }}g to {{ maxDose }}g.</p>
 
   @if (validationMessage()) {
@@ -58,13 +60,19 @@
           </div>
           <div>
             <p class="metric-label">Shot time</p>
-            <p class="metric-value" data-testid="time-value" [appPulseOnChange]="calc.shotTimeRange">
+            <p
+              class="metric-value"
+              data-testid="time-value"
+              [appPulseOnChange]="calc.shotTimeRange"
+            >
               {{ calc.shotTimeRange }}
             </p>
           </div>
         </div>
 
-        <p class="math-line">{{ calc.doseGrams }}g dose, {{ calc.ratioStyle }} ratio = {{ displayYield() }}g yield</p>
+        <p class="math-line">
+          {{ calc.doseGrams }}g dose, {{ calc.ratioStyle }} ratio = {{ displayYield() }}g yield
+        </p>
       } @else {
         <h2>Add a dose to see yield guidance</h2>
       }

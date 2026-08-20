@@ -19,7 +19,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        node-version: [20.x]
+        node-version: [22.x]
 
     steps:
       - name: Checkout
@@ -44,19 +44,8 @@ jobs:
       - name: Format check
         run: npm run format:check
 
-      - name: Install Chromium
-        run: |
-          sudo apt-get update
-          sudo apt-get install -y chromium-browser || sudo apt-get install -y chromium
-
       - name: Test
-        env:
-          CHROME_BIN: /usr/bin/chromium-browser
-        run: |
-          if [[ ! -x "$CHROME_BIN" ]]; then
-            export CHROME_BIN=/usr/bin/chromium
-          fi
-          npm run test -- --watch=false --code-coverage --browsers=ChromeHeadless
+        run: npm run test -- --watch=false --coverage
 
   publish:
     name: Publish Docker image

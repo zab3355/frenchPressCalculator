@@ -58,15 +58,21 @@ describe('CocktailScalingService', () => {
   });
 
   it('throws for zero servings', () => {
-    expect(() => service.scale(recipe, 0)).toThrowError('Servings must be a positive whole number.');
+    expect(() => service.scale(recipe, 0)).toThrowError(
+      'Servings must be a positive whole number.'
+    );
   });
 
   it('throws for negative servings', () => {
-    expect(() => service.scale(recipe, -1)).toThrowError('Servings must be a positive whole number.');
+    expect(() => service.scale(recipe, -1)).toThrowError(
+      'Servings must be a positive whole number.'
+    );
   });
 
   it('throws for non-integer servings', () => {
-    expect(() => service.scale(recipe, 2.5)).toThrowError('Servings must be a positive whole number.');
+    expect(() => service.scale(recipe, 2.5)).toThrowError(
+      'Servings must be a positive whole number.'
+    );
   });
 
   it('has 8 defined recipes with unique ids', () => {

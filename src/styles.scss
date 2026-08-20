@@ -244,13 +244,21 @@ body::after {
 }
 
 .ambient-shape-left {
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent-1) 55%, transparent), transparent 70%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent-1) 55%, transparent),
+    transparent 70%
+  );
   left: -140px;
   top: 90px;
 }
 
 .ambient-shape-right {
-  background: radial-gradient(circle, color-mix(in srgb, var(--accent-2) 45%, transparent), transparent 70%);
+  background: radial-gradient(
+    circle,
+    color-mix(in srgb, var(--accent-2) 45%, transparent),
+    transparent 70%
+  );
   right: -100px;
   top: 210px;
   animation-delay: -4s;
@@ -758,7 +766,11 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .matcha-bowl {
-  background: linear-gradient(180deg, color-mix(in srgb, var(--brand-700) 85%, black 15%), var(--brand-700));
+  background: linear-gradient(
+    180deg,
+    color-mix(in srgb, var(--brand-700) 85%, black 15%),
+    var(--brand-700)
+  );
   border-radius: 0 0 90px 90px / 0 0 60px 60px;
   height: 130px;
   position: relative;
@@ -1116,7 +1128,11 @@ input[type='number']::-webkit-inner-spin-button {
 }
 
 .straw {
-  background: linear-gradient(180deg, var(--accent-1), color-mix(in srgb, var(--accent-1) 65%, black 35%));
+  background: linear-gradient(
+    180deg,
+    var(--accent-1),
+    color-mix(in srgb, var(--accent-1) 65%, black 35%)
+  );
   border-radius: 3px;
   height: 95px;
   left: 62%;

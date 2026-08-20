@@ -64,7 +64,9 @@ describe('AgeGateComponent', () => {
     const fixture = TestBed.createComponent(AgeGateComponent);
     fixture.detectChanges();
 
-    const dialog = (fixture.nativeElement as HTMLElement).querySelector('[role="dialog"]') as HTMLElement;
+    const dialog = (fixture.nativeElement as HTMLElement).querySelector(
+      '[role="dialog"]'
+    ) as HTMLElement;
     dialog.dispatchEvent(new KeyboardEvent('keydown', { key: 'Escape', bubbles: true }));
 
     expect(fixture.componentInstance.ageGate.status()).toBe('denied');

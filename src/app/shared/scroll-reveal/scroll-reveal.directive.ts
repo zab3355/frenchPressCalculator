@@ -1,5 +1,13 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Directive, ElementRef, inject, OnDestroy, OnInit, PLATFORM_ID, Renderer2 } from '@angular/core';
+import {
+  Directive,
+  ElementRef,
+  inject,
+  OnDestroy,
+  OnInit,
+  PLATFORM_ID,
+  Renderer2,
+} from '@angular/core';
 
 /**
  * Adds `is-visible` to the host once it scrolls into view, which is what

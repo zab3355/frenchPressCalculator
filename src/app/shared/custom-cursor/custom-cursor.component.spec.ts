@@ -80,7 +80,9 @@ describe('CustomCursorComponent', () => {
 
     window.dispatchEvent(new MouseEvent('mousemove', { clientX: 120, clientY: 80 }));
 
-    const arrow = (fixture.nativeElement as HTMLElement).querySelector<SVGElement>('.custom-cursor-arrow');
+    const arrow = (fixture.nativeElement as HTMLElement).querySelector<SVGElement>(
+      '.custom-cursor-arrow'
+    );
     expect(arrow?.style.translate).toBe('120px 80px');
   });
 });

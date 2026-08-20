@@ -5,9 +5,7 @@ export const routes: Routes = [
   {
     path: 'french-press',
     loadComponent: () =>
-      import('./features/french-press/french-press.component').then(
-        (m) => m.FrenchPressComponent
-      ),
+      import('./features/french-press/french-press.component').then((m) => m.FrenchPressComponent),
     data: { theme: 'french-press' },
   },
   {

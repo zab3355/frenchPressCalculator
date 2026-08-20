@@ -48,7 +48,10 @@ describe('ScrollRevealDirective', () => {
     fixture.detectChanges();
 
     const el = (fixture.nativeElement as HTMLElement).querySelector('.reveal') as HTMLElement;
-    capturedCallback?.([{ isIntersecting: true, target: el } as unknown as IntersectionObserverEntry], {} as IntersectionObserver);
+    capturedCallback?.(
+      [{ isIntersecting: true, target: el } as unknown as IntersectionObserverEntry],
+      {} as IntersectionObserver
+    );
 
     expect(el.classList.contains('is-visible')).toBe(true);
     expect(unobserveSpy).toHaveBeenCalledWith(el);
@@ -60,7 +63,10 @@ describe('ScrollRevealDirective', () => {
     fixture.detectChanges();
 
     const el = (fixture.nativeElement as HTMLElement).querySelector('.reveal') as HTMLElement;
-    capturedCallback?.([{ isIntersecting: false, target: el } as unknown as IntersectionObserverEntry], {} as IntersectionObserver);
+    capturedCallback?.(
+      [{ isIntersecting: false, target: el } as unknown as IntersectionObserverEntry],
+      {} as IntersectionObserver
+    );
 
     expect(el.classList.contains('is-visible')).toBe(false);
     expect(unobserveSpy).not.toHaveBeenCalled();
