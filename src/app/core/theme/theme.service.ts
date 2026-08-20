@@ -1,15 +1,11 @@
-import { DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { isPlatformBrowser } from '@angular/common';
 import { effect, inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs';
 
 export type Theme = 'french-press' | 'matcha' | 'espresso' | 'cocktails';
 
-/**
- * Drives the app-wide visual theme from the active route's `data.theme`.
- * The DOM write (`document.documentElement.dataset.theme`) is centralized
- * here so feature components never need to know theming exists.
- */
+/** DOM write is centralized here so feature components never need to know theming exists. */
 @Injectable({ providedIn: 'root' })
 export class ThemeService {
   private readonly router = inject(Router);

@@ -1,10 +1,6 @@
 import { Injectable } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 
-/**
- * Caller-supplied copy for each validation state a range-bound
- * numeric field can be in.
- */
 export interface ValidationRangeMessages {
   requiredMessage: string;
   minMessage: string;
@@ -12,11 +8,7 @@ export interface ValidationRangeMessages {
   invalidMessage?: string;
 }
 
-/**
- * Resolves a `FormControl`'s validation errors into a single
- * user-facing message. Callers own their own copy; this service
- * only decides which message applies.
- */
+/** Callers own their own copy; this service only decides which message applies. */
 @Injectable({ providedIn: 'root' })
 export class ValidationMessageService {
   getValidationMessage(errors: ValidationErrors | null, messages: ValidationRangeMessages): string {

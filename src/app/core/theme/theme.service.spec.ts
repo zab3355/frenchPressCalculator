@@ -39,11 +39,11 @@ describe('ThemeService', () => {
     expect(service.currentTheme()).toBe('french-press');
   });
 
-it('applies the current route theme when init is called', async () => {
-  await router.navigateByUrl('/matcha');
-  service.init();
+  it('applies the current route theme when init is called', async () => {
+    await router.navigateByUrl('/matcha');
+    service.init();
+    TestBed.tick();
 
-  expect(service.currentTheme()).toBe('matcha');
     expect(service.currentTheme()).toBe('matcha');
     expect(document.documentElement.dataset['theme']).toBe('matcha');
   });

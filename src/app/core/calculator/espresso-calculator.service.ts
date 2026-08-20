@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 export type EspressoRatioStyle = 'ristretto' | 'normale' | 'lungo';
 
-/** Result of an espresso dose/yield calculation for a given ratio style. */
 export interface EspressoCalculation {
   doseGrams: number;
   ratioStyle: EspressoRatioStyle;
@@ -21,10 +20,7 @@ const ESPRESSO_PRESETS: Record<EspressoRatioStyle, EspressoPreset> = {
   lungo: { ratio: 3, shotTimeRange: '30-40 seconds' },
 };
 
-/**
- * Service for calculating espresso yield from dose and brew-ratio style.
- * Ristretto, normale, and lungo use standard dose:yield ratios.
- */
+/** Ristretto, normale, and lungo use standard dose:yield ratios. */
 @Injectable({ providedIn: 'root' })
 export class EspressoCalculatorService {
   calculate(doseGrams: number, ratioStyle: EspressoRatioStyle): EspressoCalculation {

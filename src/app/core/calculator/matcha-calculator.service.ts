@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 
 export type MatchaStyle = 'usucha' | 'koicha';
 
-/** Result of a matcha powder/water calculation for a given number of servings. */
 export interface MatchaCalculation {
   servings: number;
   style: MatchaStyle;
@@ -30,10 +29,7 @@ const MATCHA_PRESETS: Record<MatchaStyle, MatchaPreset> = {
   },
 };
 
-/**
- * Service for calculating matcha powder and water requirements.
- * Usucha (thin tea) and koicha (thick tea) use standard per-serving ratios.
- */
+/** Usucha (thin tea) and koicha (thick tea) use standard per-serving ratios. */
 @Injectable({ providedIn: 'root' })
 export class MatchaCalculatorService {
   calculate(servings: number, style: MatchaStyle): MatchaCalculation {
