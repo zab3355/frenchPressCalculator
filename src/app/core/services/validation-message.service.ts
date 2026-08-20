@@ -1,46 +1,33 @@
 import { Injectable } from '@angular/core';
 import { ValidationErrors } from '@angular/forms';
 
-/**
- * Service for generating user-friendly validation error messages.
- * Encapsulates validation logic for better testability and reusability.
- */
+export interface ValidationRangeMessages {
+  requiredMessage: string;
+  minMessage: string;
+  maxMessage: string;
+  invalidMessage?: string;
+}
+
+/** Callers own their own copy; this service only decides which message applies. */
 @Injectable({ providedIn: 'root' })
 export class ValidationMessageService {
-  /**
-   * Generates a validation error message based on form control errors.
-   * Returns empty string if no errors to display.
-   *
-   * @param errors - Validation errors from FormControl
-   * @param minGrams - Minimum allowed grams (for min validation message)
-   * @param maxGrams - Maximum allowed grams (for max validation message)
-   * @param minCups - Minimum cups equivalent (for min validation message)
-   * @param maxCups - Maximum cups equivalent (for max validation message)
-   * @returns User-friendly error message string
-   */
-  getValidationMessage(
-    errors: ValidationErrors | null,
-    minGrams: number,
-    maxGrams: number,
-    minCups: number,
-    maxCups: number
-  ): string {
+  getValidationMessage(errors: ValidationErrors | null, messages: ValidationRangeMessages): string {
     if (!errors || Object.keys(errors).length === 0) {
       return '';
     }
 
     if (errors['required']) {
-      return 'Add how many grams of coffee you have.';
+      return messages.requiredMessage;
     }
 
     if (errors['min']) {
-      return `Use at least ${minGrams.toFixed(2)}g for about ${minCups} cup.`;
+      return messages.minMessage;
     }
 
     if (errors['max']) {
-      return `This french press holds up to ${maxCups} cups. Use ${Math.floor(maxGrams)}g or less.`;
+      return messages.maxMessage;
     }
 
-    return 'Enter a valid coffee amount.';
+    return messages.invalidMessage ?? 'Enter a valid amount.';
   }
 }

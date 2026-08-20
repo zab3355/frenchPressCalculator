@@ -1,0 +1,16 @@
+<nav class="nav-tabs" role="tablist" aria-label="Drink calculators">
+  @for (tab of tabs; track tab.path; let i = $index) {
+    <a
+      class="nav-tab"
+      role="tab"
+      [routerLink]="tab.path"
+      routerLinkActive="nav-tab-active"
+      #rla="routerLinkActive"
+      [attr.aria-selected]="rla.isActive"
+      [attr.tabindex]="rla.isActive ? 0 : -1"
+      (keydown)="onKeydown($event, i)"
+    >
+      <span class="nav-tab-label">{{ tab.label }}</span>
+    </a>
+  }
+</nav>

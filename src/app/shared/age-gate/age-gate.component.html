@@ -1,0 +1,26 @@
+<div class="age-gate-overlay">
+  @if (ageGate.status() === 'unverified') {
+    <div
+      class="age-gate-dialog"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="age-gate-heading"
+      aria-describedby="age-gate-copy"
+      (keydown)="onDialogKeydown($event)"
+    >
+      <h2 id="age-gate-heading">Are you 21 or older?</h2>
+      <p id="age-gate-copy">
+        This section covers cocktail recipes involving alcohol. Please confirm your age to continue.
+      </p>
+      <div class="age-gate-actions">
+        <button type="button" #confirmButton (click)="confirm()">Yes, I'm 21+</button>
+        <button type="button" class="age-gate-decline" (click)="deny()">No</button>
+      </div>
+    </div>
+  } @else {
+    <div class="age-gate-denied" role="alert" tabindex="-1" #deniedMessage>
+      <h2>Access restricted</h2>
+      <p>You must be 21 or older to view this section.</p>
+    </div>
+  }
+</div>

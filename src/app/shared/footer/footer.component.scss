@@ -3,11 +3,23 @@
 }
 
 .site-footer {
-  background: color-mix(in srgb, var(--bg-paper) 90%, white 10%);
-  border-top: 1px solid var(--panel-border);
+  background: color-mix(in srgb, var(--surface-paper) 90%, white 10%);
   margin-top: 2.5rem;
-  padding: 1.25rem 1rem 1.4rem;
+  padding: 1.5rem 1rem 1.5rem;
+  position: relative;
   text-align: center;
+  transition: background 400ms ease;
+}
+
+.site-footer::before {
+  background: linear-gradient(90deg, var(--brand-500), var(--accent-1));
+  content: '';
+  height: 2px;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  transition: background 400ms ease;
 }
 
 .social-links {
@@ -24,29 +36,39 @@
 }
 
 .social-links a:hover {
+  filter: drop-shadow(0 4px 8px color-mix(in srgb, var(--text-emphasis) 40%, transparent));
   transform: translateY(-2px) scale(1.06);
+}
+
+.social-links a:hover .social-icon {
+  color: var(--accent-1);
 }
 
 .social-links a:focus-visible {
   border-radius: 999px;
-  outline: 3px solid rgba(121, 180, 139, 0.7);
+  outline: 3px solid color-mix(in srgb, var(--accent-2) 65%, transparent);
   outline-offset: 4px;
 }
 
 .social-icon {
+  color: var(--text-emphasis);
   display: block;
+  fill: currentColor;
   height: 1.45rem;
+  transition: color 200ms ease;
   width: 1.45rem;
 }
 
 p {
   color: var(--ink-500);
+  font-size: 0.85rem;
+  letter-spacing: 0.02em;
   margin: 0;
 }
 
 @media (max-width: 600px) {
   .site-footer {
     margin-top: 2rem;
-    padding: 1.1rem 1rem 1.25rem;
+    padding: 1.35rem 1rem 1.35rem;
   }
 }
