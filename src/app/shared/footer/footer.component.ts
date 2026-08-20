@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, signal } from '@angular/core';
 import { IconComponent } from '../icon/icon.component';
+import { version } from '../../../../package.json';
 
 @Component({
   selector: 'app-footer',
@@ -11,4 +12,5 @@ import { IconComponent } from '../icon/icon.component';
 })
 export class FooterComponent {
   readonly currentYear = signal(new Date().getFullYear());
+  readonly appVersion = `v${version}`;
 }
