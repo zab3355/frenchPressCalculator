@@ -49,3 +49,6 @@ nginx_frenchpress.conf
 *.pem
 secrets/
 deploy_key*
+
+# Java API build output
+api/target/
