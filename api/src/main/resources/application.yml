@@ -4,7 +4,7 @@ spring:
   datasource:
     url: jdbc:postgresql://${DB_HOST:localhost}:${DB_PORT:5432}/${DB_NAME:frenchpress}
     username: ${DB_USERNAME:frenchpress}
-    password: ${DB_PASSWORD:frenchpress}
+    password: ${DB_PASSWORD}
   jpa:
     hibernate:
       ddl-auto: validate
@@ -45,6 +45,14 @@ spring:
   config:
     activate:
       on-profile: test
+  datasource:
+    # Testcontainers' @ServiceConnection overrides the actual connection at
+    # runtime, but Spring still resolves this placeholder while binding
+    # DataSourceProperties — an explicit test-only value here means the
+    # `test` profile never depends on a real DB_PASSWORD being present in
+    # the shell/CI environment, while dev/prod still get no default and
+    # fail fast if DB_PASSWORD is missing.
+    password: test
   jpa:
     hibernate:
       ddl-auto: create-drop
