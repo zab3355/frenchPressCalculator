@@ -51,5 +51,11 @@ nginx_frenchpress.conf
 secrets/
 deploy_key*
 
+# Google Cloud OAuth client credential downloads, and any local Spring
+# profile that might carry a real client secret outside of .env
+client_secret*.json
+api/src/main/resources/application-local.yml
+api/src/main/resources/application-local.properties
+
 # Java API build output
 api/target/
