@@ -45,6 +45,7 @@ DEPLOYMENT.md
 nginx_frenchpress.conf
 .env
 .env.*
+!.env.example
 *.key
 *.pem
 secrets/

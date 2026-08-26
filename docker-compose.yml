@@ -13,3 +13,47 @@ services:
       timeout: 5s
       retries: 3
       start_period: 10s
+
+  db:
+    image: postgres:16-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME:-frenchpress}
+      - POSTGRES_USER=${DB_USERNAME:-frenchpress}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-frenchpress}
+    volumes:
+      - frenchpress_db_data:/var/lib/postgresql/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USERNAME:-frenchpress}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  api:
+    image: ghcr.io/zab3355/frenchpresscalculator-api:latest
+    build:
+      context: ./api
+    ports:
+      - "4202:8080"
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=${DB_NAME:-frenchpress}
+      - DB_USERNAME=${DB_USERNAME:-frenchpress}
+      - DB_PASSWORD=${DB_PASSWORD:-frenchpress}
+      - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
+      - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-prod}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:8080/api/me"]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 20s
+
+volumes:
+  frenchpress_db_data:
