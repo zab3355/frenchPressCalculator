@@ -2,10 +2,10 @@ import { TestBed } from '@angular/core/testing';
 import { IconComponent, IconName } from './icon.component';
 
 describe('IconComponent', () => {
-  const viewBoxByName: Record<IconName, string> = {
-    github: '0 0 24 24',
-    linkedin: '0 0 24 24',
-    portfolio: '0 0 24 24',
+  const assetPathByName: Record<IconName, string> = {
+    github: 'icons/github.svg',
+    linkedin: 'icons/linkedin.svg',
+    portfolio: 'icons/language.svg',
   };
 
   it('should create the component', () => {
@@ -14,25 +14,15 @@ describe('IconComponent', () => {
     expect(fixture.componentInstance).toBeTruthy();
   });
 
-  (Object.keys(viewBoxByName) as IconName[]).forEach((name) => {
-    it(`renders an svg with the correct viewBox for "${name}"`, () => {
+  (Object.keys(assetPathByName) as IconName[]).forEach((name) => {
+    it(`masks the "${name}" icon asset`, () => {
       const fixture = TestBed.createComponent(IconComponent);
       fixture.componentRef.setInput('name', name);
       fixture.detectChanges();
 
-      const svg = (fixture.nativeElement as HTMLElement).querySelector('svg');
-      expect(svg).toBeTruthy();
-      expect(svg?.getAttribute('viewBox')).toBe(viewBoxByName[name]);
-      expect(svg?.classList.contains('social-icon')).toBe(true);
+      const span = (fixture.nativeElement as HTMLElement).querySelector('span.social-icon');
+      expect(span).toBeTruthy();
+      expect(span?.getAttribute('style')).toContain(assetPathByName[name]);
     });
-  });
-
-  it('renders nothing when the name has no match', () => {
-    const fixture = TestBed.createComponent(IconComponent);
-    fixture.componentRef.setInput('name', 'unknown' as IconName);
-    fixture.detectChanges();
-
-    const svg = (fixture.nativeElement as HTMLElement).querySelector('svg');
-    expect(svg).toBeFalsy();
   });
 });
