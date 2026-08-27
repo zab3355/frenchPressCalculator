@@ -1,6 +1,7 @@
 import { isPlatformBrowser } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable, PLATFORM_ID, signal } from '@angular/core';
+import { Router } from '@angular/router';
 import { catchError, of, tap } from 'rxjs';
 import { withCsrfHeader } from '../http/csrf';
 import { CurrentUser } from './current-user.model';
@@ -15,6 +16,7 @@ import { CurrentUser } from './current-user.model';
 export class AuthService {
   private readonly http = inject(HttpClient);
   private readonly platformId = inject(PLATFORM_ID);
+  private readonly router = inject(Router);
 
   readonly currentUser = signal<CurrentUser | null | undefined>(undefined);
 
@@ -42,8 +44,14 @@ export class AuthService {
 
   logout(): void {
     this.http.post('/api/auth/logout', null, withCsrfHeader()).subscribe({
-      next: () => this.currentUser.set(null),
-      error: () => this.currentUser.set(null),
+      next: () => {
+        this.currentUser.set(null);
+        this.router.navigateByUrl('/french-press');
+      },
+      error: () => {
+        this.currentUser.set(null);
+        this.router.navigateByUrl('/french-press');
+      },
     });
   }
 }

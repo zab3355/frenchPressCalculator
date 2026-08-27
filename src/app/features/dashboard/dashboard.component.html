@@ -7,7 +7,9 @@
   } @else {
     <ul class="dashboard-recent-list">
       @for (event of recentEvents(); track event.createdAt + event.drinkType + event.eventType) {
-        <li>{{ event.eventType }} · {{ event.drinkType }} · {{ event.createdAt | date: 'medium' }}</li>
+        <li>
+          {{ event.eventType }} · {{ event.drinkType }} · {{ event.createdAt | date: 'medium' }}
+        </li>
       }
     </ul>
   }

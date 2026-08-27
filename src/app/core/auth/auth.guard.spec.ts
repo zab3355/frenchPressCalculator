@@ -16,9 +16,9 @@ describe('authGuard', () => {
   });
 
   function runGuard(): Observable<boolean | UrlTree> {
-    return TestBed.runInInjectionContext(() =>
-      authGuard({} as never, {} as never)
-    ) as Observable<boolean | UrlTree>;
+    return TestBed.runInInjectionContext(() => authGuard({} as never, {} as never)) as Observable<
+      boolean | UrlTree
+    >;
   }
 
   it('allows activation once currentUser resolves to a logged-in user', async () => {

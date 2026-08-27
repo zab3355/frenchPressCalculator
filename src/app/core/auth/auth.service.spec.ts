@@ -2,22 +2,26 @@ import { provideHttpClient } from '@angular/common/http';
 import { HttpTestingController, provideHttpClientTesting } from '@angular/common/http/testing';
 import { PLATFORM_ID } from '@angular/core';
 import { TestBed } from '@angular/core/testing';
+import { provideRouter, Router } from '@angular/router';
 import { AuthService } from './auth.service';
 
 describe('AuthService', () => {
   let service: AuthService;
   let httpMock: HttpTestingController;
+  let router: Router;
 
   function setup(platform: 'browser' | 'server') {
     TestBed.configureTestingModule({
       providers: [
         provideHttpClient(),
         provideHttpClientTesting(),
+        provideRouter([]),
         { provide: PLATFORM_ID, useValue: platform },
       ],
     });
     service = TestBed.inject(AuthService);
     httpMock = TestBed.inject(HttpTestingController);
+    router = TestBed.inject(Router);
   }
 
   beforeEach(() => setup('browser'));
@@ -71,9 +75,10 @@ describe('AuthService', () => {
     Object.defineProperty(window, 'location', { writable: true, value: originalLocation });
   });
 
-  it('logout() posts to /api/auth/logout with the CSRF header and clears currentUser', () => {
+  it('logout() posts to /api/auth/logout with the CSRF header, clears currentUser, and navigates to /french-press', () => {
     document.cookie = 'XSRF-TOKEN=test-token';
     service.currentUser.set({ id: 1, email: 'a@example.com', displayName: 'Ada' });
+    const navigateSpy = vi.spyOn(router, 'navigateByUrl');
 
     service.logout();
 
@@ -83,5 +88,6 @@ describe('AuthService', () => {
     req.flush(null);
 
     expect(service.currentUser()).toBeNull();
+    expect(navigateSpy).toHaveBeenCalledWith('/french-press');
   });
 });
