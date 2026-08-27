@@ -1,0 +1,55 @@
+<section class="dashboard-section">
+  <h2>Recent activity</h2>
+  @if (loadingRecent()) {
+    <p>Loading…</p>
+  } @else if (recentEvents().length === 0) {
+    <p>No activity yet — use a calculator to get started.</p>
+  } @else {
+    <ul class="dashboard-recent-list">
+      @for (event of recentEvents(); track event.createdAt + event.drinkType + event.eventType) {
+        <li>{{ event.eventType }} · {{ event.drinkType }} · {{ event.createdAt | date: 'medium' }}</li>
+      }
+    </ul>
+  }
+</section>
+
+<section class="dashboard-section">
+  <h2>Your drink breakdown</h2>
+  @if (loadingSummary()) {
+    <p>Loading…</p>
+  } @else if (summary().length === 0) {
+    <p>No calculations yet.</p>
+  } @else {
+    <ul class="dashboard-summary-list">
+      @for (row of summary(); track row.drinkType) {
+        <li>{{ row.drinkType }}: {{ row.count }}</li>
+      }
+    </ul>
+  }
+</section>
+
+<section class="dashboard-section">
+  <h2>Preferences</h2>
+  @if (loadingPreferences()) {
+    <p>Loading…</p>
+  } @else {
+    <form class="dashboard-preferences-form">
+      <label>
+        Default drink
+        <select [formControl]="defaultDrinkTypeControl">
+          <option value="french-press">French Press</option>
+          <option value="espresso">Espresso</option>
+          <option value="matcha">Matcha</option>
+          <option value="cocktails">Cocktails</option>
+        </select>
+      </label>
+      <label>
+        Units
+        <select [formControl]="unitsControl">
+          <option value="metric">Metric</option>
+          <option value="imperial">Imperial</option>
+        </select>
+      </label>
+    </form>
+  }
+</section>
