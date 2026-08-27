@@ -1,5 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { of } from 'rxjs';
+import { of, throwError } from 'rxjs';
 import { DashboardComponent } from './dashboard.component';
 import { DashboardService } from './dashboard.service';
 
@@ -52,6 +52,14 @@ describe('DashboardComponent', () => {
     fixture.detectChanges();
 
     expect(fixture.nativeElement.textContent).toContain('No activity yet');
+  });
+
+  it('stops the recent-activity loading state when the request errors', () => {
+    dashboardService.getRecentEvents.mockReturnValue(throwError(() => new Error('network error')));
+
+    fixture.detectChanges();
+
+    expect(fixture.componentInstance.loadingRecent()).toBe(false);
   });
 
   it('saves preferences when the units control changes', () => {

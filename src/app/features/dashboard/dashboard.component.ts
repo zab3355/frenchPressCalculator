@@ -30,28 +30,47 @@ export class DashboardComponent implements OnInit {
   readonly unitsControl = new FormControl<Units>('metric', { nonNullable: true });
 
   ngOnInit(): void {
-    this.dashboardService.getRecentEvents().subscribe((events) => {
-      this.recentEvents.set(events);
-      this.loadingRecent.set(false);
+    this.dashboardService.getRecentEvents().subscribe({
+      next: (events) => {
+        this.recentEvents.set(events);
+        this.loadingRecent.set(false);
+      },
+      error: () => {
+        this.loadingRecent.set(false);
+      },
     });
 
-    this.dashboardService.getSummary().subscribe((summary) => {
-      this.summary.set(summary);
-      this.loadingSummary.set(false);
+    this.dashboardService.getSummary().subscribe({
+      next: (summary) => {
+        this.summary.set(summary);
+        this.loadingSummary.set(false);
+      },
+      error: () => {
+        this.loadingSummary.set(false);
+      },
     });
 
-    this.dashboardService.getPreferences().subscribe((preferences) => {
-      this.defaultDrinkTypeControl.setValue(preferences.defaultDrinkType, { emitEvent: false });
-      this.unitsControl.setValue(preferences.units, { emitEvent: false });
-      this.loadingPreferences.set(false);
+    this.dashboardService.getPreferences().subscribe({
+      next: (preferences) => {
+        this.defaultDrinkTypeControl.setValue(preferences.defaultDrinkType, { emitEvent: false });
+        this.unitsControl.setValue(preferences.units, { emitEvent: false });
+        this.loadingPreferences.set(false);
+      },
+      error: () => {
+        this.loadingPreferences.set(false);
+      },
     });
 
     this.defaultDrinkTypeControl.valueChanges.subscribe((defaultDrinkType) => {
-      this.dashboardService.updatePreferences({ defaultDrinkType }).subscribe();
+      this.dashboardService.updatePreferences({ defaultDrinkType }).subscribe({
+        error: (err) => console.error('Failed to save default drink type preference', err),
+      });
     });
 
     this.unitsControl.valueChanges.subscribe((units) => {
-      this.dashboardService.updatePreferences({ units }).subscribe();
+      this.dashboardService.updatePreferences({ units }).subscribe({
+        error: (err) => console.error('Failed to save units preference', err),
+      });
     });
   }
 }
