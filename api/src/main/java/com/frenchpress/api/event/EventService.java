@@ -15,4 +15,12 @@ public class EventService {
     public void recordEvent(User user, DrinkType drinkType, EventType eventType) {
         drinkEventRepository.save(new DrinkEvent(user, drinkType, eventType));
     }
+
+    public java.util.List<DrinkEvent> recentEvents(User user) {
+        return drinkEventRepository.findTop10ByUserIdOrderByCreatedAtDesc(user.getId());
+    }
+
+    public java.util.List<DrinkTypeCount> calculateSummary(User user) {
+        return drinkEventRepository.countByUserAndEventTypeGroupedByDrinkType(user.getId(), EventType.CALCULATE);
+    }
 }

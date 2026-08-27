@@ -13,7 +13,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.MediaType.APPLICATION_JSON;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @AutoConfigureMockMvc
@@ -51,6 +53,45 @@ class EventControllerTest extends AbstractIntegrationTest {
                 .with(SecurityMockMvcRequestPostProcessors.csrf())
                 .contentType(APPLICATION_JSON)
                 .content("{\"drinkType\":\"french-press\",\"eventType\":\"VIEW\"}"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void returnsRecentEventsForAuthenticatedUser() throws Exception {
+        User user = userRepository.save(new User("google", "sub-1", "a@example.com", "Ada"));
+        drinkEventRepository.save(new DrinkEvent(user, DrinkType.ESPRESSO, EventType.VIEW));
+
+        mockMvc.perform(get("/api/events/recent")
+                .with(OAuth2TestSupport.googleUser("sub-1")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].drinkType").value("espresso"))
+            .andExpect(jsonPath("$[0].eventType").value("VIEW"))
+            .andExpect(jsonPath("$[0].createdAt").exists());
+    }
+
+    @Test
+    void rejectsUnauthenticatedRecentEventsRequest() throws Exception {
+        mockMvc.perform(get("/api/events/recent"))
+            .andExpect(status().is3xxRedirection());
+    }
+
+    @Test
+    void returnsSummaryCountsForAuthenticatedUser() throws Exception {
+        User user = userRepository.save(new User("google", "sub-1", "a@example.com", "Ada"));
+        drinkEventRepository.save(new DrinkEvent(user, DrinkType.MATCHA, EventType.CALCULATE));
+        drinkEventRepository.save(new DrinkEvent(user, DrinkType.MATCHA, EventType.CALCULATE));
+        drinkEventRepository.save(new DrinkEvent(user, DrinkType.MATCHA, EventType.VIEW));
+
+        mockMvc.perform(get("/api/events/summary")
+                .with(OAuth2TestSupport.googleUser("sub-1")))
+            .andExpect(status().isOk())
+            .andExpect(jsonPath("$[0].drinkType").value("matcha"))
+            .andExpect(jsonPath("$[0].count").value(2));
+    }
+
+    @Test
+    void rejectsUnauthenticatedSummaryRequest() throws Exception {
+        mockMvc.perform(get("/api/events/summary"))
             .andExpect(status().is3xxRedirection());
     }
 }
