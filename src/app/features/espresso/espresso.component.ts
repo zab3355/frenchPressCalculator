@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
@@ -6,6 +6,7 @@ import {
   EspressoCalculatorService,
   EspressoRatioStyle,
 } from '../../core/calculator/espresso-calculator.service';
+import { EventTrackingService } from '../../core/services/event-tracking.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
 import { PulseOnChangeDirective } from '../../shared/pulse-on-change/pulse-on-change.directive';
@@ -17,9 +18,10 @@ import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.
   imports: [ReactiveFormsModule, ScrollRevealDirective, PulseOnChangeDirective],
   templateUrl: './espresso.component.html',
 })
-export class EspressoComponent {
+export class EspressoComponent implements OnInit {
   private readonly calculator = inject(EspressoCalculatorService);
   private readonly validationService = inject(ValidationMessageService);
+  private readonly eventTracking = inject(EventTrackingService);
 
   readonly minDose = 7;
   readonly maxDose = 20;
@@ -70,9 +72,14 @@ export class EspressoComponent {
     this.ratioInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 
+  ngOnInit(): void {
+    this.eventTracking.record('espresso', 'VIEW');
+  }
+
   onSubmit(): void {
     this.hasInteracted.set(true);
     this.tryCalculate();
+    this.eventTracking.record('espresso', 'CALCULATE');
   }
 
   setQuickDose(doseGrams: number): void {

@@ -1,4 +1,4 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -12,6 +12,7 @@ import {
   MatchaCalculatorService,
   MatchaStyle,
 } from '../../core/calculator/matcha-calculator.service';
+import { EventTrackingService } from '../../core/services/event-tracking.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
 import { PulseOnChangeDirective } from '../../shared/pulse-on-change/pulse-on-change.directive';
@@ -27,9 +28,10 @@ function integerValidator(control: AbstractControl): ValidationErrors | null {
   imports: [ReactiveFormsModule, ScrollRevealDirective, PulseOnChangeDirective],
   templateUrl: './matcha.component.html',
 })
-export class MatchaComponent {
+export class MatchaComponent implements OnInit {
   private readonly calculator = inject(MatchaCalculatorService);
   private readonly validationService = inject(ValidationMessageService);
+  private readonly eventTracking = inject(EventTrackingService);
 
   readonly minServings = 1;
   readonly maxServings = 8;
@@ -84,9 +86,14 @@ export class MatchaComponent {
     this.styleInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 
+  ngOnInit(): void {
+    this.eventTracking.record('matcha', 'VIEW');
+  }
+
   onSubmit(): void {
     this.hasInteracted.set(true);
     this.tryCalculate();
+    this.eventTracking.record('matcha', 'CALCULATE');
   }
 
   setQuickServings(servings: number): void {
