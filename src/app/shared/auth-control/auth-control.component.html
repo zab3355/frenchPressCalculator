@@ -1,6 +1,9 @@
 @if (authService.currentUser(); as user) {
   <div class="auth-control auth-control-signed-in">
-    <a routerLink="/dashboard" class="auth-control-link">{{ user.displayName || user.email }}</a>
+    <a routerLink="/dashboard" class="auth-control-link">
+      <span class="auth-control-avatar" aria-hidden="true">{{ initials(user) }}</span>
+      <span class="auth-control-name">{{ user.displayName || user.email }}</span>
+    </a>
     <button type="button" class="auth-control-signout" (click)="logout()">Sign out</button>
   </div>
 } @else if (authService.currentUser() === null) {

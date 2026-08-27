@@ -1,57 +1,79 @@
-<section class="dashboard-section">
-  <h2>Recent activity</h2>
-  @if (loadingRecent()) {
-    <p>Loading…</p>
-  } @else if (recentEvents().length === 0) {
-    <p>No activity yet — use a calculator to get started.</p>
-  } @else {
-    <ul class="dashboard-recent-list">
-      @for (event of recentEvents(); track event.createdAt + event.drinkType + event.eventType) {
-        <li>
-          {{ event.eventType }} · {{ event.drinkType }} · {{ event.createdAt | date: 'medium' }}
-        </li>
-      }
-    </ul>
-  }
+<section class="hero panel reveal" appScrollReveal>
+  <p class="eyebrow">Your Activity</p>
+  <h1>Dashboard</h1>
+  <p class="hero-copy">A quick look at what you've been brewing, and how you like it set up.</p>
 </section>
 
-<section class="dashboard-section">
-  <h2>Your drink breakdown</h2>
-  @if (loadingSummary()) {
-    <p>Loading…</p>
-  } @else if (summary().length === 0) {
-    <p>No calculations yet.</p>
-  } @else {
-    <ul class="dashboard-summary-list">
-      @for (row of summary(); track row.drinkType) {
-        <li>{{ row.drinkType }}: {{ row.count }}</li>
-      }
-    </ul>
-  }
-</section>
+<section class="workspace-grid dashboard-grid">
+  <article class="panel reveal dashboard-panel" appScrollReveal>
+    <h2>Recent activity</h2>
+    @if (loadingRecent()) {
+      <p class="helper">Loading…</p>
+    } @else if (recentEvents().length === 0) {
+      <p class="helper">No activity yet — use a calculator to get started.</p>
+    } @else {
+      <ul class="dashboard-recent-list">
+        @for (event of recentEvents(); track event.createdAt + event.drinkType + event.eventType) {
+          <li>
+            <span
+              class="dashboard-event-type"
+              [class.dashboard-event-calculate]="event.eventType === 'CALCULATE'"
+              >{{ event.eventType === 'CALCULATE' ? 'Calculated' : 'Viewed' }}</span
+            >
+            <span class="dashboard-event-drink">{{ event.drinkType }}</span>
+            <span class="dashboard-event-time">{{ event.createdAt | date: 'medium' }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </article>
 
-<section class="dashboard-section">
-  <h2>Preferences</h2>
-  @if (loadingPreferences()) {
-    <p>Loading…</p>
-  } @else {
-    <form class="dashboard-preferences-form">
-      <label>
-        Default drink
-        <select [formControl]="defaultDrinkTypeControl">
-          <option value="french-press">French Press</option>
-          <option value="espresso">Espresso</option>
-          <option value="matcha">Matcha</option>
-          <option value="cocktails">Cocktails</option>
-        </select>
-      </label>
-      <label>
-        Units
-        <select [formControl]="unitsControl">
-          <option value="metric">Metric</option>
-          <option value="imperial">Imperial</option>
-        </select>
-      </label>
-    </form>
-  }
+  <article class="panel reveal dashboard-panel" appScrollReveal>
+    <h2>Your drink breakdown</h2>
+    @if (loadingSummary()) {
+      <p class="helper">Loading…</p>
+    } @else if (summary().length === 0) {
+      <p class="helper">No calculations yet.</p>
+    } @else {
+      <ul class="dashboard-summary-list">
+        @for (row of summary(); track row.drinkType) {
+          <li>
+            <span
+              class="dashboard-summary-dot"
+              [attr.data-drink]="row.drinkType"
+              aria-hidden="true"
+            ></span>
+            <span class="dashboard-summary-label">{{ row.drinkType }}</span>
+            <span class="dashboard-summary-count">{{ row.count }}</span>
+          </li>
+        }
+      </ul>
+    }
+  </article>
+
+  <article class="panel reveal dashboard-panel dashboard-panel-preferences" appScrollReveal>
+    <h2>Preferences</h2>
+    @if (loadingPreferences()) {
+      <p class="helper">Loading…</p>
+    } @else {
+      <form class="dashboard-preferences-form">
+        <label>
+          Default drink
+          <select [formControl]="defaultDrinkTypeControl">
+            <option value="french-press">French Press</option>
+            <option value="espresso">Espresso</option>
+            <option value="matcha">Matcha</option>
+            <option value="cocktails">Cocktails</option>
+          </select>
+        </label>
+        <label>
+          Units
+          <select [formControl]="unitsControl">
+            <option value="metric">Metric</option>
+            <option value="imperial">Imperial</option>
+          </select>
+        </label>
+      </form>
+    }
+  </article>
 </section>

@@ -1,6 +1,7 @@
 import { DatePipe } from '@angular/common';
 import { Component, inject, OnInit, signal } from '@angular/core';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.directive';
 import {
   DashboardService,
   DefaultDrinkType,
@@ -12,7 +13,7 @@ import {
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [ReactiveFormsModule, DatePipe],
+  imports: [ReactiveFormsModule, DatePipe, ScrollRevealDirective],
   templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit {
