@@ -12,8 +12,13 @@ export function app(): express.Express {
   const browserDistFolder = resolve(serverDistFolder, '../browser');
   const indexHtml = join(serverDistFolder, 'index.server.html');
 
+  const extraAllowedHosts = (process.env['ALLOWED_HOSTS'] ?? '')
+    .split(',')
+    .map((host) => host.trim())
+    .filter(Boolean);
+
   const commonEngine = new CommonEngine({
-    allowedHosts: ['localhost', 'frenchpress.zabrown.com'],
+    allowedHosts: ['localhost', 'frenchpress.zabrown.com', ...extraAllowedHosts],
   });
 
   server.set('view engine', 'html');
