@@ -10,6 +10,7 @@ import org.testcontainers.junit.jupiter.Testcontainers;
 
 @SpringBootTest
 @Testcontainers
+@org.springframework.test.context.ActiveProfiles("test")
 @TestPropertySource(properties = {
     "spring.security.oauth2.client.registration.google.client-id=dummy",
     "spring.security.oauth2.client.registration.google.client-secret=dummy"
