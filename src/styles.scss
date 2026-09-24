@@ -188,6 +188,9 @@ body {
 }
 
 body {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
   background:
     radial-gradient(
       circle at 14% 12%,
@@ -223,6 +226,7 @@ body::after {
 }
 
 .fp-page {
+  flex: 1 0 auto;
   isolation: isolate;
   max-width: 1100px;
   margin: 0 auto;
@@ -666,9 +670,13 @@ input[type='number']::-webkit-inner-spin-button {
   width: min(100%, 1100px);
 }
 
+.nav-bar app-navigation-tabs {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
 .nav-bar .nav-tabs {
   border-bottom: none;
-  flex: 1 1 auto;
   margin: 0;
   max-width: none;
   padding: 0;
@@ -1462,13 +1470,12 @@ input[type='number']::-webkit-inner-spin-button {
   align-items: center;
   background: color-mix(in srgb, var(--surface) 40%, transparent);
   backdrop-filter: blur(8px);
-  border-radius: 1.25rem;
   bottom: 0;
   display: flex;
   justify-content: center;
   left: 0;
   padding: 1.5rem;
-  position: absolute;
+  position: fixed;
   right: 0;
   top: 0;
   z-index: 50;
@@ -1518,6 +1525,7 @@ input[type='number']::-webkit-inner-spin-button {
   cursor: pointer;
   font-weight: 600;
   padding: 0.7rem 1.3rem;
+  user-select: none;
   transition:
     transform 220ms ease,
     box-shadow 220ms ease;
@@ -1585,6 +1593,25 @@ input[type='number']::-webkit-inner-spin-button {
 
   .dashboard-panel-preferences {
     grid-column: 1 / -1;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 899px) {
+  .fp-page {
+    padding-left: 1.25rem;
+    padding-right: 1.25rem;
+  }
+
+  .hero,
+  .calculator-panel,
+  .visual-panel,
+  .dashboard-panel {
+    padding: 1.15rem;
+  }
+
+  .nav-bar {
+    gap: 0.5rem 1rem;
+    padding: 1.1rem 1.25rem 0.9rem;
   }
 }
 

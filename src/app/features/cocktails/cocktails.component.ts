@@ -1,13 +1,4 @@
-import {
-  Component,
-  computed,
-  ElementRef,
-  inject,
-  OnInit,
-  Signal,
-  signal,
-  ViewChild,
-} from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -45,8 +36,6 @@ export class CocktailsComponent implements OnInit {
   private readonly validationService = inject(ValidationMessageService);
   private readonly eventTracking = inject(EventTrackingService);
   readonly ageGate = inject(AgeGateService);
-
-  @ViewChild('heading') private readonly headingRef?: ElementRef<HTMLElement>;
 
   readonly recipes = COCKTAIL_RECIPES;
   readonly minServings = 1;
@@ -132,10 +121,6 @@ export class CocktailsComponent implements OnInit {
 
   shouldShowErrors(): boolean {
     return this.servingsInput.invalid && (this.servingsInput.dirty || this.hasInteracted());
-  }
-
-  onAgeConfirmed(): void {
-    setTimeout(() => this.headingRef?.nativeElement.focus());
   }
 
   formatAmount(amount: number): string {

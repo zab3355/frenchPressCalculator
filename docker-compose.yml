@@ -44,6 +44,7 @@ services:
       - DB_PASSWORD=${DB_PASSWORD:?DB_PASSWORD must be set}
       - GOOGLE_CLIENT_ID=${GOOGLE_CLIENT_ID}
       - GOOGLE_CLIENT_SECRET=${GOOGLE_CLIENT_SECRET}
+      - OAUTH_REDIRECT_URI=${OAUTH_REDIRECT_URI:?OAUTH_REDIRECT_URI must be set and registered in the Google console}
       - SPRING_PROFILES_ACTIVE=${SPRING_PROFILES_ACTIVE:-prod}
     depends_on:
       db:

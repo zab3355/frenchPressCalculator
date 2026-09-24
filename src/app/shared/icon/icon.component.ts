@@ -8,7 +8,6 @@ const ICON_ASSET_PATHS: Record<IconName, string> = {
   portfolio: 'icons/language.svg',
 };
 
-/** Renders via CSS mask (not <img>) so `.social-icon`'s `currentColor` hover theming still applies. */
 @Component({
   selector: 'app-icon',
   standalone: true,
@@ -19,6 +18,25 @@ const ICON_ASSET_PATHS: Record<IconName, string> = {
     [style.-webkit-mask-image]="maskImage()"
     aria-hidden="true"
   ></span>`,
+  styles: `
+    :host {
+      display: inline-flex;
+    }
+
+    .social-icon {
+      background-color: var(--icon-color, var(--text-emphasis));
+      display: block;
+      height: var(--icon-size, 1.45rem);
+      -webkit-mask-position: center;
+      mask-position: center;
+      -webkit-mask-repeat: no-repeat;
+      mask-repeat: no-repeat;
+      -webkit-mask-size: contain;
+      mask-size: contain;
+      transition: background-color 200ms ease;
+      width: var(--icon-size, 1.45rem);
+    }
+  `,
 })
 export class IconComponent {
   readonly name = input.required<IconName>();
