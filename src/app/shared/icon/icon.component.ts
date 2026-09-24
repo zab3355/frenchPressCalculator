@@ -3,9 +3,9 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 export type IconName = 'github' | 'linkedin' | 'portfolio';
 
 const ICON_ASSET_PATHS: Record<IconName, string> = {
-  github: 'icons/github.svg',
-  linkedin: 'icons/linkedin.svg',
-  portfolio: 'icons/language.svg',
+  github: '/icons/github.svg',
+  linkedin: '/icons/linkedin.svg',
+  portfolio: '/icons/language.svg',
 };
 
 /** Renders via CSS mask (not <img>) so `.social-icon`'s `currentColor` hover theming still applies. */
