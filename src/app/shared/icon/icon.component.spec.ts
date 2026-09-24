@@ -3,9 +3,9 @@ import { IconComponent, IconName } from './icon.component';
 
 describe('IconComponent', () => {
   const assetPathByName: Record<IconName, string> = {
-    github: 'icons/github.svg',
-    linkedin: 'icons/linkedin.svg',
-    portfolio: 'icons/language.svg',
+    github: '/icons/github.svg',
+    linkedin: '/icons/linkedin.svg',
+    portfolio: '/icons/language.svg',
   };
 
   it('should create the component', () => {
