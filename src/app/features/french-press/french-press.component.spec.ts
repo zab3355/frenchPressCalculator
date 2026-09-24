@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { FrenchPressComponent } from './french-press.component';
 
@@ -5,6 +7,7 @@ describe('FrenchPressComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [FrenchPressComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 

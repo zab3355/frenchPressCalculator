@@ -1,5 +1,6 @@
 :host {
   display: block;
+  flex-shrink: 0;
 }
 
 .site-footer {
@@ -36,32 +37,15 @@
 }
 
 .social-links a:hover {
+  --icon-color: var(--accent-1);
   filter: drop-shadow(0 4px 8px color-mix(in srgb, var(--text-emphasis) 40%, transparent));
   transform: translateY(-2px) scale(1.06);
-}
-
-.social-links a:hover .social-icon {
-  background-color: var(--accent-1);
 }
 
 .social-links a:focus-visible {
   border-radius: 999px;
   outline: 3px solid color-mix(in srgb, var(--accent-2) 65%, transparent);
   outline-offset: 4px;
-}
-
-.social-icon {
-  background-color: var(--text-emphasis);
-  display: block;
-  height: 1.45rem;
-  -webkit-mask-position: center;
-  mask-position: center;
-  -webkit-mask-repeat: no-repeat;
-  mask-repeat: no-repeat;
-  -webkit-mask-size: contain;
-  mask-size: contain;
-  transition: background-color 200ms ease;
-  width: 1.45rem;
 }
 
 p {

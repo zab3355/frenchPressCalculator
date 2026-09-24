@@ -1,4 +1,4 @@
-import { Component, computed, ElementRef, inject, Signal, signal, ViewChild } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   AbstractControl,
@@ -14,6 +14,7 @@ import {
   CocktailIngredient,
   CocktailRecipe,
 } from '../../core/data/cocktails.data';
+import { EventTrackingService } from '../../core/services/event-tracking.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
 import { AgeGateComponent } from '../../shared/age-gate/age-gate.component';
@@ -30,12 +31,11 @@ function integerValidator(control: AbstractControl): ValidationErrors | null {
   imports: [ReactiveFormsModule, ScrollRevealDirective, AgeGateComponent, PulseOnChangeDirective],
   templateUrl: './cocktails.component.html',
 })
-export class CocktailsComponent {
+export class CocktailsComponent implements OnInit {
   private readonly scalingService = inject(CocktailScalingService);
   private readonly validationService = inject(ValidationMessageService);
+  private readonly eventTracking = inject(EventTrackingService);
   readonly ageGate = inject(AgeGateService);
-
-  @ViewChild('heading') private readonly headingRef?: ElementRef<HTMLElement>;
 
   readonly recipes = COCKTAIL_RECIPES;
   readonly minServings = 1;
@@ -103,9 +103,14 @@ export class CocktailsComponent {
     this.recipeInput.valueChanges.subscribe(() => this.tryCalculate());
   }
 
+  ngOnInit(): void {
+    this.eventTracking.record('cocktails', 'VIEW');
+  }
+
   onSubmit(): void {
     this.hasInteracted.set(true);
     this.tryCalculate();
+    this.eventTracking.record('cocktails', 'CALCULATE');
   }
 
   setQuickServings(servings: number): void {
@@ -116,10 +121,6 @@ export class CocktailsComponent {
 
   shouldShowErrors(): boolean {
     return this.servingsInput.invalid && (this.servingsInput.dirty || this.hasInteracted());
-  }
-
-  onAgeConfirmed(): void {
-    setTimeout(() => this.headingRef?.nativeElement.focus());
   }
 
   formatAmount(amount: number): string {

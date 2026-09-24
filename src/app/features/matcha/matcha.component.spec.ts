@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { MatchaComponent } from './matcha.component';
 
@@ -5,6 +7,7 @@ describe('MatchaComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [MatchaComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 

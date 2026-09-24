@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/auth/auth.guard';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'french-press', pathMatch: 'full' },
@@ -25,6 +26,12 @@ export const routes: Routes = [
     loadComponent: () =>
       import('./features/cocktails/cocktails.component').then((m) => m.CocktailsComponent),
     data: { theme: 'cocktails' },
+  },
+  {
+    path: 'dashboard',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('./features/dashboard/dashboard.component').then((m) => m.DashboardComponent),
   },
   { path: '**', redirectTo: 'french-press' },
 ];

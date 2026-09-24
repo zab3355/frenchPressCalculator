@@ -1,10 +1,11 @@
-import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { Component, computed, inject, OnInit, Signal, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { FormControl, ReactiveFormsModule, Validators } from '@angular/forms';
 import {
   BrewCalculation,
   FrenchPressCalculatorService,
 } from '../../core/calculator/french-press-calculator.service';
+import { EventTrackingService } from '../../core/services/event-tracking.service';
 import { ValidationMessageService } from '../../core/services/validation-message.service';
 import { formatDecimal } from '../../core/utils/number-formatter';
 import { PulseOnChangeDirective } from '../../shared/pulse-on-change/pulse-on-change.directive';
@@ -16,9 +17,10 @@ import { ScrollRevealDirective } from '../../shared/scroll-reveal/scroll-reveal.
   imports: [ReactiveFormsModule, ScrollRevealDirective, PulseOnChangeDirective],
   templateUrl: './french-press.component.html',
 })
-export class FrenchPressComponent {
+export class FrenchPressComponent implements OnInit {
   private readonly calculator = inject(FrenchPressCalculatorService);
   private readonly validationService = inject(ValidationMessageService);
+  private readonly eventTracking = inject(EventTrackingService);
 
   readonly gramsPerCup = this.calculator.gramsPerCup;
   readonly cupMilliliters = this.calculator.cupMilliliters;
@@ -72,9 +74,14 @@ export class FrenchPressComponent {
     });
   }
 
+  ngOnInit(): void {
+    this.eventTracking.record('french-press', 'VIEW');
+  }
+
   onSubmit(): void {
     this.hasInteracted.set(true);
     this.tryCalculate();
+    this.eventTracking.record('french-press', 'CALCULATE');
   }
 
   setQuickAmount(grams: number): void {

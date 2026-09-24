@@ -26,3 +26,23 @@ describe('IconComponent', () => {
     });
   });
 });
+
+describe('IconComponent styling', () => {
+  it('sizes and colors its own span without help from a host component', () => {
+    const fixture = TestBed.createComponent(IconComponent);
+    fixture.componentRef.setInput('name', 'github');
+    fixture.detectChanges();
+
+    const span = (fixture.nativeElement as HTMLElement).querySelector(
+      'span.social-icon'
+    ) as HTMLElement;
+    const computed = getComputedStyle(span);
+
+    expect(computed.display).toBe('block');
+    expect(computed.height).not.toBe('');
+    expect(computed.height).not.toBe('0px');
+    expect(computed.width).not.toBe('');
+    expect(computed.width).not.toBe('0px');
+    expect(computed.getPropertyValue('mask-size')).toBe('contain');
+  });
+});

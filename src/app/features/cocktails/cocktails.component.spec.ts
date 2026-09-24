@@ -1,3 +1,5 @@
+import { provideHttpClient } from '@angular/common/http';
+import { provideHttpClientTesting } from '@angular/common/http/testing';
 import { TestBed } from '@angular/core/testing';
 import { CocktailsComponent } from './cocktails.component';
 
@@ -6,6 +8,7 @@ describe('CocktailsComponent', () => {
     sessionStorage.clear();
     await TestBed.configureTestingModule({
       imports: [CocktailsComponent],
+      providers: [provideHttpClient(), provideHttpClientTesting()],
     }).compileComponents();
   });
 
