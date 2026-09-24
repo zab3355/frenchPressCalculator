@@ -41,7 +41,7 @@
 }
 
 .social-links a:hover .social-icon {
-  color: var(--accent-1);
+  background-color: var(--accent-1);
 }
 
 .social-links a:focus-visible {
@@ -51,11 +51,16 @@
 }
 
 .social-icon {
-  color: var(--text-emphasis);
+  background-color: var(--text-emphasis);
   display: block;
-  fill: currentColor;
   height: 1.45rem;
-  transition: color 200ms ease;
+  -webkit-mask-position: center;
+  mask-position: center;
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-size: contain;
+  mask-size: contain;
+  transition: background-color 200ms ease;
   width: 1.45rem;
 }
 
